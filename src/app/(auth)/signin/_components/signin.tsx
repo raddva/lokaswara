@@ -75,13 +75,13 @@ export default function SignIn() {
     }, [signinState, signinAction]);
 
     return (
-        <div className="max-w-md mx-auto mt-10 rounded-xl border border-gray-200 bg-white text-gray-950 shadow-sm">
+        <div className="max-w-md mx-auto mt-10 rounded-xl border border-gray-200 bg-white text-gray-950 shadow-sm w-full">
             <div className="flex flex-col space-y-1.5 p-6 text-center">
                 <h3 className="font-semibold tracking-tight text-2xl">
                     Welcome
                 </h3>
                 <p className="text-sm text-gray-500">
-                    frontend benerin ui yh
+                    Sign In to Get Access 
                 </p>
             </div>
 
