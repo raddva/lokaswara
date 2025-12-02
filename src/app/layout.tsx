@@ -22,7 +22,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookiesStore = await cookies();
-  const profile = JSON.parse(cookiesStore.get('user_profile')?.value ?? '{}');
+  const profileCookie = cookiesStore.get('user_profile')?.value;
+  let profile = null;
+
+  if (profileCookie) {
+    try {
+      profile = JSON.parse(profileCookie);
+    } catch (e) {
+      console.error("Failed to parse user_profile cookie:", e);
+    }
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body

@@ -1,11 +1,11 @@
 export type AuthFormState = {
-  status?: string;
+  status: "idle" | "error" | "success";
   errors?: {
+    _form?: string[];
     email?: string[];
     password?: string[];
     name?: string[];
     role?: string[];
-    _form?: string[];
   };
 };
 

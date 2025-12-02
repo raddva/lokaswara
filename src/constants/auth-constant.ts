@@ -1,15 +1,13 @@
+import { AuthFormState } from "@/types/auth";
+
 export const INITIAL_SIGNIN_FORM = {
   email: "",
   password: "",
 };
 
-export const INITIAL_STATE_SIGNIN_FORM = {
+export const INITIAL_STATE_SIGNIN_FORM: AuthFormState = {
   status: "idle",
-  errors: {
-    email: [],
-    password: [],
-    _form: [],
-  },
+  errors: {},
 };
 
 export const INITIAL_STATE_PROFILE = {

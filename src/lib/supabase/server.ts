@@ -1,37 +1,21 @@
-import { environment } from "@/configs/environment";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { environment } from "@/configs/environment";
 
-type CreateClientOptions = {
-  isAdmin?: boolean;
-};
+export function createClient() {
+  const cookieStore = cookies();
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = environment;
 
-export async function createClient({
-  isAdmin = false,
-}: CreateClientOptions = {}) {
-  const cookieStore = await cookies();
-  const { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY } =
-    environment;
-
-  return createServerClient(
-    SUPABASE_URL!,
-    isAdmin ? SUPABASE_SERVICE_ROLE_KEY! : SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-            console.log("Cookies set successfully", cookiesToSet);
-          } catch {
-            console.error("Error setting cookies", cookiesToSet);
-          }
-        },
+  return createServerClient(SUPABASE_URL!, SUPABASE_ANON_KEY!, {
+    cookies: {
+      async getAll() {
+        return (await cookieStore).getAll();
       },
-    }
-  );
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(async ({ name, value, options }) =>
+          (await cookieStore).set(name, value, options)
+        );
+      },
+    },
+  });
 }
