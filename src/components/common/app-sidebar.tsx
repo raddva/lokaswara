@@ -44,10 +44,10 @@ export default function AppSidebar() {
                         <SidebarMenuButton size="lg" asChild>
                             <div className="font-semibold text-3xl">
                                 <Avatar className="w-8 h-8 rounded-md bg-transparent">
-                                    <AvatarImage src="/logo.svg" alt="Mndy Cafe Logo" />
-                                    <AvatarFallback className="text-xs">MC</AvatarFallback>
+                                    <AvatarImage src="/logo.svg" alt="LokaSwara Logo" />
+                                    <AvatarFallback className="text-xs">LS</AvatarFallback>
                                 </Avatar>
-                                Mndy Cafe
+                                LokaSwara
                             </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -57,14 +57,14 @@ export default function AppSidebar() {
                 <SidebarGroup>
                     <SidebarGroupContent className="flex flex-col gap-2">
                         <SidebarMenu>
-                            {SIDEBAR_MENU_LIST[(profile.role ?? 'user') as SidebarMenuKey]?.map(
+                            {SIDEBAR_MENU_LIST[(profile?.role ?? 'user') as SidebarMenuKey]?.map(
                                 (item) => (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild tooltip={item.title}>
                                             <a
                                                 href={item.url}
                                                 className={cn('px-4 py-3 h-auto', {
-                                                    'bg-teal-500 text-white hover:bg-teal-500 hover:text-white':
+                                                    'bg-red-800 text-white hover:bg-red-700 hover:text-black':
                                                         pathname === item.url,
                                                 })}
                                             >
@@ -90,13 +90,13 @@ export default function AppSidebar() {
                                 >
                                     <Avatar className="h-8 w-8 rounded-lg">
                                         <AvatarFallback className="rounded-lg">
-                                            {profile.name?.charAt(0)}
+                                            {profile?.name?.charAt(0)}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="leading-tight">
-                                        <h4 className="truncate font-medium">{profile.name}</h4>
+                                        <h4 className="truncate font-medium">{profile?.name}</h4>
                                         <p className="text-muted-foreground truncate text-xs capitalize">
-                                            {profile.role}
+                                            {profile?.role}
                                         </p>
                                     </div>
                                     <EllipsisVertical className="ml-auto size-4" />
@@ -112,13 +112,13 @@ export default function AppSidebar() {
                                     <div className="flex items-center gap-2 px-1 py-1.5">
                                         <Avatar className="h-8 w-8 rounded-lg">
                                             <AvatarFallback className="rounded-lg">
-                                                {profile.name?.charAt(0)}
+                                                {profile?.name?.charAt(0)}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="leading-tight">
-                                            <h4 className="truncate font-medium">{profile.name}</h4>
+                                            <h4 className="truncate font-medium">{profile?.name}</h4>
                                             <p className="text-muted-foreground truncate text-xs capitalize">
-                                                {profile.role}
+                                                {profile?.role}
                                             </p>
                                         </div>
                                     </div>

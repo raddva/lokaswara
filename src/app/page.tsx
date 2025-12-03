@@ -10,10 +10,12 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!profile) return;
-
-    if (profile.role === 'admin') {
-      router.replace('/admin');
+    if (profile) {
+      if (profile.role === 'admin') {
+        router.replace('/admin');
+      } else {
+        router.replace('/home');
+      }
     } else {
       router.replace('/home');
     }
