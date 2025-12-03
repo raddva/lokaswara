@@ -45,7 +45,7 @@ export default function AppSidebar() {
                             <div className="font-semibold text-3xl">
                                 <Avatar className="w-8 h-8 rounded-md bg-transparent">
                                     <AvatarImage src="/logo.svg" alt="LokaSwara Logo" />
-                                    <AvatarFallback className="text-xs">MC</AvatarFallback>
+                                    <AvatarFallback className="text-xs">LS</AvatarFallback>
                                 </Avatar>
                                 LokaSwara
                             </div>
@@ -64,7 +64,7 @@ export default function AppSidebar() {
                                             <a
                                                 href={item.url}
                                                 className={cn('px-4 py-3 h-auto', {
-                                                    'bg-teal-500 text-white hover:bg-teal-500 hover:text-white':
+                                                    'bg-red-800 text-white hover:bg-red-700 hover:text-black':
                                                         pathname === item.url,
                                                 })}
                                             >

@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-// import { ThemeProvider } from '@/providers/theme-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import AuthStoreProvider from '@/providers/auth-store-provider';
 import { cookies } from 'next/headers';
@@ -40,15 +40,15 @@ export default async function RootLayout({
       >
         <ReactQueryProvider>
           <AuthStoreProvider profile={profile}>
-            {/* <ThemeProvider
+            <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-            > */}
-            {children}
-            <Toaster />
-            {/* </ThemeProvider> */}
+            >
+              {children}
+              <Toaster />
+            </ThemeProvider>
           </AuthStoreProvider>
         </ReactQueryProvider>
       </body>

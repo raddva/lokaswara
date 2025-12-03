@@ -10,6 +10,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import AppSidebar from '@/components/common/app-sidebar';
 import { Separator } from '@radix-ui/react-separator';
 import DashboardBreadcrumb from './admin/_components/dashboard-breadcrumb';
+import { DarkmodeToggle } from '@/components/common/mode-toggle';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const profile = useAuthStore((state) => state.profile);
@@ -42,6 +43,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                     className="mr-2 data-[orientation=vertical]:h-4"
                                 />
                                 <DashboardBreadcrumb />
+                            </div>
+                            <div className="px-4">
+                                <DarkmodeToggle />
                             </div>
                         </header>
                         <main className="flex flex-1 flex-col items-start gap-4 p-4 pt-0">
