@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { createFoods } from '../actions';
 import { toast } from 'sonner';
 import { foodsFormSchema } from '@/validations/foods-validation';
-import { INITIAL_CONTENT, INITIAL_STATE_CONTENT } from '@/constants/foods-constant';
+import { INITIAL_FOODS, INITIAL_STATE_FOODS } from '@/constants/foods-constant';
 import FormFoods from './form-foods';
 import { CategorySelectItem } from '../actions';
 import { Preview } from '@/types/general';
@@ -28,13 +28,13 @@ export default function DialogCreateFoods({
     const form = useForm<CreateFoodsFormValues>({
         resolver: zodResolver(createFormSchema),
         defaultValues: {
-            ...INITIAL_CONTENT,
+            ...INITIAL_FOODS,
             image_url: undefined,
         },
     });
 
     const [createFoodsState, createFoodsAction, isPendingCreateFoods] =
-        useActionState(createFoods, INITIAL_STATE_CONTENT);
+        useActionState(createFoods, INITIAL_STATE_FOODS);
 
     const [preview, setPreview] = useState<Preview | undefined>(undefined);
 

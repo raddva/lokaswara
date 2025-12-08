@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import FormFoods from './form-foods';
 import { Dialog } from '@/components/ui/dialog';
 import { Foods, foodsFormSchema } from '@/validations/foods-validation';
-import { INITIAL_STATE_CONTENT } from '@/constants/foods-constant';
+import { INITIAL_STATE_FOODS } from '@/constants/foods-constant';
 import { Preview } from '@/types/general';
 import { z } from 'zod';
 
@@ -48,7 +48,7 @@ export default function DialogUpdateFoods({
     });
 
     const [updateFoodsState, updateFoodsAction, isPendingUpdateFoods] =
-        useActionState(updateFoods, INITIAL_STATE_CONTENT);
+        useActionState(updateFoods, INITIAL_STATE_FOODS);
 
     useEffect(() => {
         if (currentData) {
@@ -68,7 +68,7 @@ export default function DialogUpdateFoods({
     }, [currentData, form]);
 
     useEffect(() => {
-        if (!updateFoodsState || updateFoodsState === INITIAL_STATE_CONTENT) return;
+        if (!updateFoodsState || updateFoodsState === INITIAL_STATE_FOODS) return;
 
         if (updateFoodsState.status === 'error') {
             const errors = updateFoodsState.errors;
