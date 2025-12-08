@@ -1,11 +1,9 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { BottomNav } from '@/components/common/bottom-nav';
 import Navbar from '@/components/common/navbar';
-import { ReactNode, useEffect, useState } from 'react';
-import { useAuthStore } from '@/stores/auth-store';
-import { useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/common/app-sidebar';
 import { Separator } from '@radix-ui/react-separator';
@@ -13,25 +11,17 @@ import DashboardBreadcrumb from './admin/_components/dashboard-breadcrumb';
 import { DarkmodeToggle } from '@/components/common/mode-toggle';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-    const profile = useAuthStore((state) => state.profile);
-    const router = useRouter();
-    const [showNavbar, setShowNavbar] = useState(true);
-
-    useEffect(() => {
-        if (!profile) {
-            setShowNavbar(true);
-        } else {
-            setShowNavbar(false);
-        }
-    }, [profile, router]);
+    const pathname = usePathname();
+    const isDashboardPage = pathname.startsWith('/admin');
 
     return (
         <main className=''>
-            {showNavbar ? <div>
-                <Navbar />
-                {children}
-            </div>
-                :
+            {!isDashboardPage ? (
+                <div>
+                    <Navbar />
+                    {children}
+                </div>
+            ) : (
                 <SidebarProvider>
                     <AppSidebar />
                     <SidebarInset className="overflow-x-hidden">
@@ -53,8 +43,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                         </main>
                     </SidebarInset>
                 </SidebarProvider>
-            }
-
+            )}
         </main>
     );
 }
