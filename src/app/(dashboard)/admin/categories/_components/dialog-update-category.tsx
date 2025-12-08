@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { updateCategory, CategorySelectItem } from '../actions';
 import { toast } from 'sonner';
 import FormCategory from './form-category';
-import { Dialog } from '@/components/ui/dialog'; // Ensure correct import for Dialog
+import { Dialog } from '@/components/ui/dialog';
 import { Category, CategoryForm, categoryFormSchema } from '@/validations/category-validation';
 import { INITIAL_STATE_CATEGORY } from '@/constants/category-constant';
 

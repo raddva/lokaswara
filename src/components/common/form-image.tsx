@@ -29,43 +29,45 @@ export default function FormImage<T extends FieldValues>({
         <FormField
             control={form.control}
             name={name}
-            render={({ field: { onChange, ...rest } }) => (
-                <FormItem>
-                    <FormLabel>{label}</FormLabel>
-                    <FormControl>
-                        <div className="flex items-center gap-2">
-                            <Avatar className="h-9 w-9 rounded-lg">
-                                <AvatarImage
-                                    src={preview?.displayUrl}
-                                    alt="preview"
-                                    className="object-cover"
+            render={({ field }) => {
+                const { onChange, value, ...rest } = field;
+
+                return (
+                    <FormItem>
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            <div className="flex items-center gap-2">
+                                <Avatar className="h-9 w-9 rounded-lg">
+                                    <AvatarImage
+                                        src={preview?.displayUrl || undefined}
+                                        alt="preview"
+                                        className="object-cover"
+                                    />
+                                    <AvatarFallback className="rounded-lg">
+                                        <FileImage className="w-4 h-4" />
+                                    </AvatarFallback>
+                                </Avatar>
+                                <Input
+                                    type="file"
+                                    {...rest}
+                                    onChange={async (event) => {
+                                        const { file, displayUrl } = getImageData(event);
+
+                                        if (file) {
+                                            onChange(file);
+                                            setPreview?.({
+                                                file,
+                                                displayUrl,
+                                            });
+                                        }
+                                    }}
                                 />
-                                <AvatarFallback className="rounded-lg">
-                                    <FileImage className="w-4 h-4" />
-                                </AvatarFallback>
-                            </Avatar>
-                            <Input
-                                type="file"
-                                name={rest.name}
-                                ref={rest.ref}
-                                onBlur={rest.onBlur}
-                                disabled={rest.disabled}
-                                onChange={async (event) => {
-                                    onChange(event);
-                                    const { file, displayUrl } = getImageData(event);
-                                    if (file) {
-                                        setPreview?.({
-                                            file,
-                                            displayUrl,
-                                        });
-                                    }
-                                }}
-                            />
-                        </div>
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                </FormItem>
-            )}
+                            </div>
+                        </FormControl>
+                        <FormMessage className="text-xs" />
+                    </FormItem>
+                );
+            }}
         />
     );
 }
