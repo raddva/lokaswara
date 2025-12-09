@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { BottomNav } from '@/components/common/bottom-nav';
 import Navbar from '@/components/common/navbar';
 import { ReactNode, useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/auth-store';
