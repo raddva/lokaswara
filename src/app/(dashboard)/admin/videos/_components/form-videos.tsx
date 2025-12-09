@@ -12,30 +12,33 @@ import {
 import { Form } from '@/components/ui/form';
 import { Loader2 } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
-import { LanguageSelectItem } from '../actions';
+import { LanguageSelectItem, ContentSelectItem } from '../actions';
 import { FormEvent } from 'react';
-import { DictionaryForm } from '@/validations/dictionary-validation';
+import { VideosForm } from '@/validations/videos-validation';
+import { PUBLISH_STATUS_LIST } from '@/constants/content-constant';
 
-export default function FormDictionary({
+export default function FormVideos({
     form,
     onSubmit,
     isLoading,
     type,
     languageList,
+    contentList,
 }: {
-    form: UseFormReturn<DictionaryForm>;
+    form: UseFormReturn<VideosForm>;
     onSubmit: (e: FormEvent<HTMLFormElement>) => void;
     isLoading: boolean;
     type: 'Create' | 'Update';
     languageList: LanguageSelectItem[];
+    contentList: ContentSelectItem[];
 }) {
     return (
         <DialogContent className="sm:max-w-[425px] max-h-[90vh]">
             <Form {...form}>
                 <DialogHeader>
-                    <DialogTitle>{type} Dictionary</DialogTitle>
+                    <DialogTitle>{type} Videos</DialogTitle>
                     <DialogDescription>
-                        {type === 'Create' ? 'Add a new dictionary' : 'Make changes dictionary here'}
+                        {type === 'Create' ? 'Add a new videos' : 'Make changes videos here'}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -43,27 +46,22 @@ export default function FormDictionary({
                     <div className="space-y-4 max-h-[50vh] px-1 overflow-y-auto">
                         <FormInput
                             form={form}
-                            name="word"
-                            label="Word"
-                            placeholder="Insert word here"
+                            name="title"
+                            label="Title"
+                            placeholder="Insert title here"
                         />
                         <FormInput
                             form={form}
-                            name="meaning"
-                            label="Meaning"
-                            placeholder="Insert meaning here"
+                            name="description"
+                            label="Description"
+                            placeholder="Insert description here"
+                            type="textarea"
                         />
                         <FormInput
                             form={form}
-                            name="synonym"
-                            label="Synonym"
-                            placeholder="Insert synonym here"
-                        />
-                        <FormInput
-                            form={form}
-                            name="pronunciation"
-                            label="Pronunciation"
-                            placeholder="Insert pronunciation here"
+                            name="youtube_url"
+                            label="URL Youtube"
+                            placeholder="Insert youtube url here"
                         />
                         <FormSelect
                             form={form}
@@ -71,6 +69,19 @@ export default function FormDictionary({
                             label="Language"
                             placeholder="Select a language"
                             selectItem={languageList}
+                        />
+                        <FormSelect
+                            form={form}
+                            name="content_id"
+                            label="Content"
+                            placeholder="Select a content"
+                            selectItem={contentList}
+                        />
+                        <FormSelect
+                            form={form}
+                            name="publish_status"
+                            label="Availability"
+                            selectItem={PUBLISH_STATUS_LIST}
                         />
                     </div>
                     <DialogFooter>

@@ -2,16 +2,15 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { DictionaryFormState } from "@/types/dictionary";
-import { dictionarySchema } from "@/validations/dictionary-validation";
-
-export type Language = {
-  id: string;
-  name: string;
-  description?: string;
-};
+import { VideosFormState } from "@/types/videos";
+import { videosSchema } from "@/validations/videos-validation";
 
 export type LanguageSelectItem = {
+  value: string;
+  label: string;
+};
+
+export type ContentSelectItem = {
   value: string;
   label: string;
 };
@@ -31,62 +30,34 @@ export async function getLanguages(): Promise<LanguageSelectItem[]> {
   }));
 }
 
-export async function getLanguagesRaw(): Promise<Language[]> {
+export async function getContents(): Promise<ContentSelectItem[]> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("languages")
-    .select("*")
-    .order("name", { ascending: true });
+    .from("content")
+    .select("id, title")
+    .order("title", { ascending: true });
 
-  if (error) throw new Error(error.message);
-  return data;
+  if (error) return [];
+
+  return data.map((content) => ({
+    value: content.id,
+    label: content.title,
+  }));
 }
 
-export async function createLanguage(name: string, description: string) {
-  const supabase = createClient();
-  const { error } = await supabase
-    .from("languages")
-    .insert({ name, description });
-
-  if (error) throw new Error(error.message);
-  return true;
-}
-
-export async function updateLanguage(
-  id: string,
-  name: string,
-  description: string
-) {
-  const supabase = createClient();
-  const { error } = await supabase
-    .from("languages")
-    .update({ name, description })
-    .eq("id", id);
-
-  if (error) throw new Error(error.message);
-  return true;
-}
-
-export async function deleteLanguage(id: string) {
-  const supabase = createClient();
-  const { error } = await supabase.from("languages").delete().eq("id", id);
-
-  if (error) throw new Error(error.message);
-  return true;
-}
-
-export async function createDictionary(
-  prevState: DictionaryFormState,
+export async function createVideos(
+  prevState: VideosFormState,
   formData: FormData
 ) {
   const languageId = formData.get("language_id");
 
-  const validatedFields = dictionarySchema.safeParse({
-    word: formData.get("word"),
-    meaning: formData.get("meaning"),
-    synonym: formData.get("synonym"),
-    pronunciation: formData.get("pronunciation"),
+  const validatedFields = videosSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    youtube_url: formData.get("youtube_url"),
     language_id: languageId,
+    content_id: formData.get("content_id"),
+    publish_status: formData.get("publish_status"),
   });
 
   if (!validatedFields.success) {
@@ -111,12 +82,13 @@ export async function createDictionary(
     };
   }
 
-  const { error } = await supabase.from("dictionary").insert({
-    word: validatedFields.data.word,
-    meaning: validatedFields.data.meaning,
-    synonym: validatedFields.data.synonym,
-    pronunciation: validatedFields.data.pronunciation,
+  const { error } = await supabase.from("videos").insert({
+    title: validatedFields.data.title,
+    description: validatedFields.data.description,
+    youtube_url: validatedFields.data.youtube_url,
     language_id: languageId,
+    content_id: validatedFields.data.content_id,
+    publish_status: validatedFields.data.publish_status,
     created_by: user.id,
   });
 
@@ -135,19 +107,20 @@ export async function createDictionary(
   };
 }
 
-export async function updateDictionary(
-  prevState: DictionaryFormState,
+export async function updateVideos(
+  prevState: VideosFormState,
   formData: FormData
 ) {
   const languageId = formData.get("language_id");
   const id = formData.get("id") as string;
 
-  const validatedFields = dictionarySchema.safeParse({
-    word: formData.get("word"),
-    meaning: formData.get("meaning"),
-    synonym: formData.get("synonym"),
-    pronunciation: formData.get("pronunciation"),
+  const validatedFields = videosSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    youtube_url: formData.get("youtube_url"),
     language_id: languageId,
+    content_id: formData.get("content_id"),
+    publish_status: formData.get("publish_status"),
   });
 
   if (!validatedFields.success) {
@@ -160,15 +133,16 @@ export async function updateDictionary(
   const supabase = await createClient();
 
   const updatePayload: any = {
-    word: validatedFields.data.word,
-    meaning: validatedFields.data.meaning,
-    synonym: validatedFields.data.synonym,
-    pronunciation: validatedFields.data.pronunciation,
+    title: validatedFields.data.title,
+    description: validatedFields.data.description,
+    youtube_url: validatedFields.data.youtube_url,
     language_id: languageId,
+    content_id: validatedFields.data.content_id,
+    publish_status: validatedFields.data.publish_status,
   };
 
   const { error } = await supabase
-    .from("dictionary")
+    .from("videos")
     .update(updatePayload)
     .eq("id", id);
 
@@ -187,14 +161,14 @@ export async function updateDictionary(
   };
 }
 
-export async function deleteDictionary(
-  prevState: DictionaryFormState,
+export async function deleteVideos(
+  prevState: VideosFormState,
   formData: FormData
 ) {
   const supabase = await createClient();
   const id = formData.get("id") as string;
 
-  const { error } = await supabase.from("dictionary").delete().eq("id", id);
+  const { error } = await supabase.from("videos").delete().eq("id", id);
 
   if (error) {
     return {
