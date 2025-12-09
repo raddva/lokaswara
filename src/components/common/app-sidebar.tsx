@@ -44,7 +44,7 @@ export default function AppSidebar() {
                         <SidebarMenuButton size="lg" asChild>
                             <div className="font-semibold text-3xl">
                                 <Avatar className="w-8 h-8 rounded-md bg-transparent">
-                                    <AvatarImage src="/logo.svg" alt="LokaSwara Logo" />
+                                    <AvatarImage src="/logo_white.svg" alt="LokaSwara Logo" />
                                     <AvatarFallback className="text-xs">LS</AvatarFallback>
                                 </Avatar>
                                 LokaSwara
