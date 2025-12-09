@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import DialogDelete from '@/components/common/dialog-delete';
 import { startTransition, useActionState, useEffect } from 'react';
 import { deleteContent } from '../actions';
@@ -22,6 +23,7 @@ export default function DialogDeleteContent({
     const onSubmit = () => {
         const formData = new FormData();
         formData.append('id', currentData!.id as string);
+        formData.append('image_url', currentData!.featured_image_url as string);
         startTransition(() => {
             deleteContentAction(formData);
         });
