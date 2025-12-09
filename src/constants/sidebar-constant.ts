@@ -50,7 +50,7 @@ export const SIDEBAR_MENU_LIST = {
     },
     {
       title: "Requests",
-      url: "/admin/requests",
+      url: "/admin/content-request",
       icon: Inbox,
     },
     {
