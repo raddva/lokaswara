@@ -8,18 +8,17 @@ import { Input } from '@/components/ui/input';
 import useDataTable from '@/hooks/use-datatable';
 import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { HEADER_TABLE_FOODS } from '@/constants/foods-constant';
-import DialogCreateFoods from './dialog-create-food';
-import DialogUpdateFoods from './dialog-update-food';
-import DialogDeleteFoods from './dialog-delete-food';
-import { CategorySelectItem, getCategoriesForSelect } from '../actions';
-import type { Foods } from '@/validations/foods-validation';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { HEADER_TABLE_DICTIONARY } from '@/constants/dictionary-constant';
+import DialogCreateDictionary from './dialog-create-dictionary';
+import DialogUpdateDictionary from './dialog-update-dictionary';
+import DialogDeleteDictionary from './dialog-delete-dictionary';
+import { LanguageSelectItem, getLanguages } from '../actions';
+import type { Dictionary } from '@/validations/dictionary-validation';
 
-export default function Foods() {
+export default function Dictionary() {
     const supabase = createClient();
     const {
         currentPage,
@@ -31,26 +30,26 @@ export default function Foods() {
     } = useDataTable();
 
     const {
-        data: foods,
+        data: dictionary,
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['foods', currentPage, currentLimit, currentSearch],
+        queryKey: ['dictionary', currentPage, currentLimit, currentSearch],
         queryFn: async () => {
             const query = supabase
-                .from('foods')
+                .from('dictionary')
                 .select('*', { count: 'exact' })
                 .range((currentPage - 1) * currentLimit, currentPage * currentLimit - 1)
                 .order('created_at', { ascending: false });
 
             if (currentSearch) {
-                query.or(`name.ilike.%${currentSearch}%`);
+                query.or(`word.ilike.%${currentSearch}%`);
             }
 
             const result = await query;
 
             if (result.error)
-                toast.error('Get Foods data failed', {
+                toast.error('Get Dictionary data failed', {
                     description: result.error.message,
                 });
 
@@ -58,13 +57,13 @@ export default function Foods() {
         },
     });
 
-    const { data: categoryList = [], isLoading: isLoadingFoodsList } = useQuery<CategorySelectItem[]>({
-        queryKey: ['categoriesForSelect'],
-        queryFn: getCategoriesForSelect,
+    const { data: languageList = [], isLoading: isLoadingDictionaryList } = useQuery<LanguageSelectItem[]>({
+        queryKey: ['languagesForSelect'],
+        queryFn: getLanguages,
     });
 
     const [selectedAction, setSelectedAction] = useState<{
-        data: Foods;
+        data: Dictionary;
         type: 'update' | 'delete';
     } | null>(null);
 
@@ -73,29 +72,26 @@ export default function Foods() {
     };
 
     const filteredData = useMemo(() => {
-        return (foods?.data || []).map((foods: Foods, index) => {
-            const uniqueKey = `${foods.id}-${index}`;
+        return (dictionary?.data || []).map((dictionary: Dictionary, index) => {
+            const uniqueKey = `${dictionary.id}-${index}`;
 
-            const categoryName = categoryList.find((c) => c.value === foods.category_id)?.label || foods.category_id;
+            const languageName = languageList.find((c) => c.value === dictionary.language_id)?.label || dictionary.language_id;
 
             return [
                 currentLimit * (currentPage - 1) + index + 1,
-                <div key={`avatar-${uniqueKey}`} className="flex items-center gap-2">
-                    <Avatar className="h-10 w-10 rounded">
-                        <AvatarImage
-                            src={foods.image_url || ""}
-                            alt={foods.name}
-                            className="object-cover"
-                        />
-                        <AvatarFallback className="rounded bg-muted">
-                            <ImageIcon className="h-4 w-4 text-muted-foreground" />
-                        </AvatarFallback>
-                    </Avatar>
+                <div key={`word-${uniqueKey}`} className="flex items-center gap-2">
+                    {dictionary.word}
                 </div>,
-                <div key={`name-${uniqueKey}`} className="flex items-center gap-2">
-                    {foods.name}
+                // <div key={`meaning-${uniqueKey}`} className="flex items-center gap-2">
+                //     {dictionary.meaning}
+                // </div>,
+                <div key={`synonym-${uniqueKey}`} className="flex items-center gap-2">
+                    {dictionary.synonym}
                 </div>,
-                <span key={`category-${uniqueKey}`}>{categoryName}</span>,
+                <div key={`pronunciation-${uniqueKey}`} className="flex items-center gap-2">
+                    {dictionary.pronunciation}
+                </div>,
+                <span key={`language-${uniqueKey}`}>{languageName}</span>,
                 <DropdownAction
                     key={`action-${uniqueKey}`}
                     menu={[
@@ -107,7 +103,7 @@ export default function Foods() {
                             ),
                             action: () => {
                                 setSelectedAction({
-                                    data: foods,
+                                    data: dictionary,
                                     type: 'update',
                                 });
                             },
@@ -121,7 +117,7 @@ export default function Foods() {
                             variant: 'destructive',
                             action: () => {
                                 setSelectedAction({
-                                    data: foods,
+                                    data: dictionary,
                                     type: 'delete',
                                 });
                             },
@@ -130,18 +126,18 @@ export default function Foods() {
                 />,
             ];
         });
-    }, [foods, currentPage, currentLimit, categoryList]);
+    }, [dictionary, currentPage, currentLimit, languageList]);
 
     const totalPages = useMemo(() => {
-        return foods && foods.count !== null
-            ? Math.ceil(foods.count / currentLimit)
+        return dictionary && dictionary.count !== null
+            ? Math.ceil(dictionary.count / currentLimit)
             : 0;
-    }, [foods, currentLimit]);
+    }, [dictionary, currentLimit]);
 
     return (
         <div className="w-full">
             <div className="flex flex-col lg:flex-row mb-4 gap-2 justify-between w-full">
-                <h1 className="text-2xl font-bold">Foods Management</h1>
+                <h1 className="text-2xl font-bold">Dictionary Management</h1>
                 <div className="flex gap-2">
                     <Input
                         placeholder="Search..."
@@ -149,21 +145,21 @@ export default function Foods() {
                     />
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="outline" disabled={isLoadingFoodsList}>
-                                {isLoadingFoodsList ? 'Loading...' : 'Create'}
+                            <Button variant="outline" disabled={isLoadingDictionaryList}>
+                                {isLoadingDictionaryList ? 'Loading...' : 'Create'}
                             </Button>
                         </DialogTrigger>
 
-                        <DialogCreateFoods
+                        <DialogCreateDictionary
                             refetch={refetch}
-                            categoryList={categoryList}
+                            languageList={languageList}
                         />
                     </Dialog>
                 </div>
             </div>
 
             <DataTable
-                header={HEADER_TABLE_FOODS}
+                header={HEADER_TABLE_DICTIONARY}
                 data={filteredData}
                 isLoading={isLoading}
                 totalPages={totalPages}
@@ -174,17 +170,17 @@ export default function Foods() {
             />
 
             {selectedAction?.type === 'update' && (
-                <DialogUpdateFoods
+                <DialogUpdateDictionary
                     open={true}
                     refetch={refetch}
                     currentData={selectedAction.data}
                     handleChangeAction={handleChangeAction}
-                    categoryList={categoryList}
+                    languageList={languageList}
                 />
             )}
 
             {selectedAction?.type === 'delete' && (
-                <DialogDeleteFoods
+                <DialogDeleteDictionary
                     open={true}
                     refetch={refetch}
                     currentData={selectedAction.data}
