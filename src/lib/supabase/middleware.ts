@@ -3,9 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  });
+  let response = NextResponse.next();
 
   const { SUPABASE_URL, SUPABASE_ANON_KEY } = environment;
 
@@ -15,13 +13,22 @@ export async function updateSession(request: NextRequest) {
         return request.cookies.getAll();
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) =>
-          request.cookies.set(name, value)
-        );
-        supabaseResponse = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          supabaseResponse.cookies.set(name, value, options)
-        );
+        cookiesToSet.forEach(({ name, value, options }) => {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+        });
+
+        response = NextResponse.next();
+        cookiesToSet.forEach(({ name, value, options }) => {
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          });
+        });
       },
     },
   });
@@ -30,17 +37,15 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && request.nextUrl.pathname !== "/signin") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/signin";
-    return NextResponse.redirect(url);
+  const pathname = request.nextUrl.pathname;
+
+  const isAdminRoute = pathname.startsWith("/admin");
+
+  if (isAdminRoute && !user) {
+    const signinUrl = request.nextUrl.clone();
+    signinUrl.pathname = "/signin";
+    return NextResponse.redirect(signinUrl);
   }
 
-  if (user && request.nextUrl.pathname === "/signin") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
-  }
-
-  return supabaseResponse;
+  return response;
 }
