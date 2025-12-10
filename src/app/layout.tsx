@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Inter, Lora, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
@@ -11,9 +11,19 @@ const geistSans = Geist({
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: '--font-playfair-display',
+  subsets: ['latin']
+});
+
+const lora = Lora({
+  variable: '--font-lora',
+  subsets: ['latin']
 });
 
 export default async function RootLayout({
@@ -36,7 +46,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${inter.variable} ${playfairDisplay.variable} ${lora.variable} antialiased`}
       >
         <ReactQueryProvider>
           <AuthStoreProvider profile={profile}>

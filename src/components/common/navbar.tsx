@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
-import { Instagram, Search } from "lucide-react";
+import { Instagram, SearchIcon } from "lucide-react";
 
 interface NavItems {
     name: string,
@@ -9,7 +10,7 @@ interface NavItems {
 const NavProps: NavItems[] = [
     {
         name: "Beranda",
-        link: ""
+        link: "/home"
     },
     {
         name: "Informasi",
@@ -26,21 +27,27 @@ const NavProps: NavItems[] = [
 ]
 
 export default function Navbar() {
+    const [isScrolled, setIsScrolled] = useState(false) 
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 30   )
+        }
+
+        window.addEventListener("scroll", handleScroll)
+        return () => {
+            window.removeEventListener("scroll", handleScroll)
+        }
+    })
+
     return (
-        <nav className="fixed px-32 py-2 w-full z-30">
-            <div>
-                <div className="flex justify-end items-center gap-3">
-                    <div className="bg-white rounded-full p-1">
-                        <Instagram />
-                    </div>
-                    <Input name="search" className="bg-white h-8 w-1/4 rounded-full text-sm" placeholder="Search" />
-                    <label ><Search className="text-white" /></label>
-                </div>
-                <div className="flex items-center gap-5">
+        <nav className={`${isScrolled ? "bg-black/70" : "bg-transparent"} transition-all duration-300 fixed px-32 py-5 w-full z-30 font-inter`}>
+            <div className="flex justify-between">
+                <div className="flex items-center gap-1">
+                    <img src="/assets/logo_white.svg" alt="logo" width={30} />
                     <h1 className="text-white font-bold text-xl">LokaSwara</h1>
-                    <div className="h-full w-full border border-white"></div>
                 </div>
-                <div className="flex gap-20 justify-end">
+                <div className="flex gap-20">
                     {NavProps.map((item, index) => {
                         return (
                             <a
@@ -52,6 +59,7 @@ export default function Navbar() {
                             </a>
                         )
                     })}
+                    <SearchIcon />
                 </div>
             </div>
         </nav>
