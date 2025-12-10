@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Instagram, SearchIcon } from "lucide-react";
 
@@ -26,8 +27,21 @@ const NavProps: NavItems[] = [
 ]
 
 export default function Navbar() {
+    const [isScrolled, setIsScrolled] = useState(false) 
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 30   )
+        }
+
+        window.addEventListener("scroll", handleScroll)
+        return () => {
+            window.removeEventListener("scroll", handleScroll)
+        }
+    })
+
     return (
-        <nav className="fixed px-32 py-5 w-full z-30 font-inter">
+        <nav className={`${isScrolled ? "bg-black/70" : "bg-transparent"} transition-all duration-300 fixed px-32 py-5 w-full z-30 font-inter`}>
             <div className="flex justify-between">
                 <div className="flex items-center gap-1">
                     <img src="/assets/logo_white.svg" alt="logo" width={30} />

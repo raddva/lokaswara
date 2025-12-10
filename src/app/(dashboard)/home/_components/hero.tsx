@@ -7,8 +7,7 @@ import { scroller } from "react-scroll"
 export default function Hero() {
   return (
     <section
-      className="h-screen w-full inset-0 bg-cover relative items-center justify-center"
-      style={{ backgroundImage: `url('/assets/hero.png')` }}
+      className="bg-[url('/assets/hero.png')] bg-fixed h-screen w-full inset-0 bg-cover relative items-center justify-center"
     >
       <div className="bg-linear-to-b from-black/50 to-black to-99% inset-0 absolute z-10 w-full h-full"></div>
       <motion.div
@@ -28,7 +27,7 @@ export default function Hero() {
               offset: -10,
             });
           }}
-          className="w-60 h-14 rounded-full align-bottom"
+          className="w-60 h-14 rounded-xl align-bottom"
         >
           <ArrowDown /> Mulai Menjelajah
         </Button>

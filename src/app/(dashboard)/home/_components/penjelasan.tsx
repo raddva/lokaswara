@@ -1,6 +1,6 @@
 'use client'
 import { Button } from "@/components/ui/button"
-import { Element } from "react-scroll"
+import { Element, scroller } from "react-scroll"
 
 interface imageData {
   link: string,
@@ -30,11 +30,23 @@ export default function Penjelasan() {
       // style={{ backgroundImage: `url('/assets/hero.png')` }}
       >
         <div className="flex flex-col gap-3">
-          <h1 className="text-5xl font-bold">Taukah kamu?</h1>
+          <h1 className="text-8xl font-bold">Taukah kamu?</h1>
           <div className="border-2 border-white rounded-xl max-w-3xl p-4">
             <p className="text-justify text-xl">Suku Sunda adalah kelompok etnis terbesar kedua di Indonesia yang terutama mendiami wilayah Jawa Barat dan Banten. Mereka dikenal memiliki budaya yang menjunjung tinggi kesopanan, keramahan, serta nilai kebersamaan. Bahasa Sunda menjadi ciri utama identitas mereka, disertai berbagai tradisi, kesenian, dan adat istiadat yang masih dilestarikan. Kehidupan masyarakat Sunda juga sangat dekat dengan alam dan memiliki filosofi hidup yang sederhana namun harmonis.</p>
           </div>
-          <Button variant={'outline'} className="h-12">Selengkapnya</Button>
+          <Button
+            variant={'default'}
+            className="h-12" 
+            onClick={() => {
+              scroller.scrollTo("category", {
+                duration: 800,
+                smooth: "easeInOutQuart",
+                offset: -10,
+              });
+            }}
+          >
+            Selengkapnya
+          </Button>
         </div>
         <div className="w-1/2 h-full relative">
           {imageProps.map((item, index) => {
