@@ -1,4 +1,5 @@
-import { Item } from "@radix-ui/react-dropdown-menu"
+'use client'
+import { motion } from "framer-motion"
 
 interface aboutItems {
   title: string,
@@ -31,8 +32,16 @@ export default function VisiMisi() {
       <div className="relative z-20 flex flex-col gap-5">
         {aboutProps.map((item, index) => {
           return (
-            <div
+            <motion.div
               key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.2 * index,
+                duration: 0.8,
+                ease: "easeOut"
+              }}
+              viewport={{ once: false }}
               className="border-2 border-white rounded-xl p-5 backdrop-blur-lg"
             >
               <div className="flex gap-3 items-center">
@@ -40,7 +49,7 @@ export default function VisiMisi() {
                 <h2 className="text-2xl font-bold">{item.title}</h2>
               </div>
               <p className="text-justify pt-2">{item.desc}</p>
-            </div>
+            </motion.div>
           )
         })}
       </div>

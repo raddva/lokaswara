@@ -1,6 +1,6 @@
+'use client'
 import { useEffect, useState } from "react";
-import { Input } from "../ui/input";
-import { Instagram, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 
 interface NavItems {
     name: string,

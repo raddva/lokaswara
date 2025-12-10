@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import Navbar from '@/components/common/navbar';
+import Navbar from '@/components/common/app-navbar';
 import { ReactNode, useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/auth-store';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,7 @@ import AppSidebar from '@/components/common/app-sidebar';
 import { Separator } from '@radix-ui/react-separator';
 import DashboardBreadcrumb from './admin/_components/dashboard-breadcrumb';
 import { DarkmodeToggle } from '@/components/common/mode-toggle';
+import Footer from '@/components/common/app-footer';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const profile = useAuthStore((state) => state.profile);
@@ -29,6 +30,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {showNavbar ? <div>
                 <Navbar />
                 {children}
+                {/* <Footer /> */}
             </div>
                 :
                 <SidebarProvider>
@@ -53,7 +55,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </SidebarInset>
                 </SidebarProvider>
             }
-
         </main>
     );
 }
