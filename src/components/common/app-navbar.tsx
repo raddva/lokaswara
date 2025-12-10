@@ -1,6 +1,6 @@
+'use client'
 import { useEffect, useState } from "react";
 import { SearchIcon } from "lucide-react";
-import Image from "next/image";
 
 interface NavItems {
     name: string,
@@ -27,11 +27,11 @@ const NavProps: NavItems[] = [
 ]
 
 export default function Navbar() {
-    const [isScrolled, setIsScrolled] = useState(false)
+    const [isScrolled, setIsScrolled] = useState(false) 
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 30)
+            setIsScrolled(window.scrollY > 30   )
         }
 
         window.addEventListener("scroll", handleScroll)
@@ -44,7 +44,7 @@ export default function Navbar() {
         <nav className={`${isScrolled ? "bg-black/70" : "bg-transparent"} transition-all duration-300 fixed px-32 py-5 w-full z-30 font-inter`}>
             <div className="flex justify-between">
                 <div className="flex items-center gap-1">
-                    <Image src="/assets/logo_white.svg" alt="logo" width={30} />
+                    <img src="/assets/logo_white.svg" alt="logo" width={30} />
                     <h1 className="text-white font-bold text-xl">LokaSwara</h1>
                 </div>
                 <div className="flex gap-20">

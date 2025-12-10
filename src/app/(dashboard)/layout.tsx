@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from '@/components/common/navbar';
+import Navbar from '@/components/common/app-navbar';
 import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -15,12 +15,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     return (
         <main className=''>
-            {!isDashboardPage ? (
+            {!isDashboardPage ?
                 <div>
                     <Navbar />
                     {children}
+                    {/* <Footer /> */}
                 </div>
-            ) : (
+                :
                 <SidebarProvider>
                     <AppSidebar />
                     <SidebarInset className="overflow-x-hidden">
@@ -42,7 +43,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                         </main>
                     </SidebarInset>
                 </SidebarProvider>
-            )}
+            }
         </main>
     );
 }

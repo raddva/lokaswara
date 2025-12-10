@@ -1,4 +1,4 @@
-import Navbar from "@/components/common/navbar"
+import Navbar from "@/components/common/app-navbar"
 import MakananSundaPage from "./_components/makanan"
 
 export default function MakananSunda() {
