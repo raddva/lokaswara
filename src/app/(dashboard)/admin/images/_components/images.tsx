@@ -8,18 +8,18 @@ import { Input } from '@/components/ui/input';
 import useDataTable from '@/hooks/use-datatable';
 import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { Pencil, Settings, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Image as ImageIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { HEADER_TABLE_DICTIONARY } from '@/constants/dictionary-constant';
-import DialogCreateDictionary from './dialog-create-dictionary';
-import DialogUpdateDictionary from './dialog-update-dictionary';
-import DialogDeleteDictionary from './dialog-delete-dictionary';
-import { LanguageSelectItem, getLanguages } from '../actions';
-import type { Dictionary } from '@/validations/dictionary-validation';
-import DialogLanguages from './dialog-languages';
+import { HEADER_TABLE_IMAGES } from '@/constants/images-constant';
+import DialogCreateImages from './dialog-create-image';
+import DialogUpdateImages from './dialog-update-image';
+import DialogDeleteImages from './dialog-delete-image';
+import { CategorySelectItem, getCategoriesForSelect } from '../actions';
+import type { Images } from '@/validations/image-validation';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function Dictionary() {
+export default function Images() {
     const supabase = createClient();
     const {
         currentPage,
@@ -31,26 +31,26 @@ export default function Dictionary() {
     } = useDataTable();
 
     const {
-        data: dictionary,
+        data: images,
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['dictionary', currentPage, currentLimit, currentSearch],
+        queryKey: ['images', currentPage, currentLimit, currentSearch],
         queryFn: async () => {
             const query = supabase
-                .from('dictionary')
+                .from('images')
                 .select('*', { count: 'exact' })
                 .range((currentPage - 1) * currentLimit, currentPage * currentLimit - 1)
                 .order('created_at', { ascending: false });
 
             if (currentSearch) {
-                query.or(`word.ilike.%${currentSearch}%`);
+                query.or(`name.ilike.%${currentSearch}%`);
             }
 
             const result = await query;
 
             if (result.error)
-                toast.error('Get Dictionary data failed', {
+                toast.error('Get Images data failed', {
                     description: result.error.message,
                 });
 
@@ -58,13 +58,13 @@ export default function Dictionary() {
         },
     });
 
-    const { data: languageList = [], isLoading: isLoadingDictionaryList } = useQuery<LanguageSelectItem[]>({
-        queryKey: ['languagesForSelect'],
-        queryFn: getLanguages,
+    const { data: categoryList = [], isLoading: isLoadingImagesList } = useQuery<CategorySelectItem[]>({
+        queryKey: ['categoriesForSelect'],
+        queryFn: getCategoriesForSelect,
     });
 
     const [selectedAction, setSelectedAction] = useState<{
-        data: Dictionary;
+        data: Images;
         type: 'update' | 'delete';
     } | null>(null);
 
@@ -73,26 +73,29 @@ export default function Dictionary() {
     };
 
     const filteredData = useMemo(() => {
-        return (dictionary?.data || []).map((dictionary: Dictionary, index) => {
-            const uniqueKey = `${dictionary.id}-${index}`;
+        return (images?.data || []).map((images: Images, index) => {
+            const uniqueKey = `${images.id}-${index}`;
 
-            const languageName = languageList.find((c) => c.value === dictionary.language_id)?.label || dictionary.language_id;
+            const categoryName = categoryList.find((c) => c.value === images.category_id)?.label || images.category_id;
 
             return [
                 currentLimit * (currentPage - 1) + index + 1,
-                <div key={`word-${uniqueKey}`} className="flex items-center gap-2">
-                    {dictionary.word}
+                <div key={`avatar-${uniqueKey}`} className="flex items-center gap-2">
+                    <Avatar className="h-10 w-10 rounded">
+                        <AvatarImage
+                            src={images.image_url || ""}
+                            alt={images.title}
+                            className="object-cover"
+                        />
+                        <AvatarFallback className="rounded bg-muted">
+                            <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                        </AvatarFallback>
+                    </Avatar>
                 </div>,
-                // <div key={`meaning-${uniqueKey}`} className="flex items-center gap-2">
-                //     {dictionary.meaning}
-                // </div>,
-                <div key={`synonym-${uniqueKey}`} className="flex items-center gap-2">
-                    {dictionary.synonym}
+                <div key={`title-${uniqueKey}`} className="flex items-center gap-2">
+                    {images.title}
                 </div>,
-                <div key={`pronunciation-${uniqueKey}`} className="flex items-center gap-2">
-                    {dictionary.pronunciation}
-                </div>,
-                <span key={`language-${uniqueKey}`}>{languageName}</span>,
+                <span key={`category-${uniqueKey}`}>{categoryName}</span>,
                 <DropdownAction
                     key={`action-${uniqueKey}`}
                     menu={[
@@ -104,7 +107,7 @@ export default function Dictionary() {
                             ),
                             action: () => {
                                 setSelectedAction({
-                                    data: dictionary,
+                                    data: images,
                                     type: 'update',
                                 });
                             },
@@ -118,7 +121,7 @@ export default function Dictionary() {
                             variant: 'destructive',
                             action: () => {
                                 setSelectedAction({
-                                    data: dictionary,
+                                    data: images,
                                     type: 'delete',
                                 });
                             },
@@ -127,48 +130,40 @@ export default function Dictionary() {
                 />,
             ];
         });
-    }, [dictionary, currentPage, currentLimit, languageList]);
+    }, [images, currentPage, currentLimit, categoryList]);
 
     const totalPages = useMemo(() => {
-        return dictionary && dictionary.count !== null
-            ? Math.ceil(dictionary.count / currentLimit)
+        return images && images.count !== null
+            ? Math.ceil(images.count / currentLimit)
             : 0;
-    }, [dictionary, currentLimit]);
+    }, [images, currentLimit]);
 
     return (
         <div className="w-full">
             <div className="flex flex-col lg:flex-row mb-4 gap-2 justify-between w-full">
-                <h1 className="text-2xl font-bold">Dictionary Management</h1>
+                <h1 className="text-2xl font-bold">Images Management</h1>
                 <div className="flex gap-2">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="outline" size="icon" title="Manage Languages">
-                                <Settings className="h-4 w-4" />
-                            </Button>
-                        </DialogTrigger>
-                        <DialogLanguages />
-                    </Dialog>
                     <Input
                         placeholder="Search..."
                         onChange={(e) => handleChangeSearch(e.target.value)}
                     />
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="outline" disabled={isLoadingDictionaryList}>
-                                {isLoadingDictionaryList ? 'Loading...' : 'Create'}
+                            <Button variant="outline" disabled={isLoadingImagesList}>
+                                {isLoadingImagesList ? 'Loading...' : 'Create'}
                             </Button>
                         </DialogTrigger>
 
-                        <DialogCreateDictionary
+                        <DialogCreateImages
                             refetch={refetch}
-                            languageList={languageList}
+                            categoryList={categoryList}
                         />
                     </Dialog>
                 </div>
             </div>
 
             <DataTable
-                header={HEADER_TABLE_DICTIONARY}
+                header={HEADER_TABLE_IMAGES}
                 data={filteredData}
                 isLoading={isLoading}
                 totalPages={totalPages}
@@ -179,17 +174,17 @@ export default function Dictionary() {
             />
 
             {selectedAction?.type === 'update' && (
-                <DialogUpdateDictionary
+                <DialogUpdateImages
                     open={true}
                     refetch={refetch}
                     currentData={selectedAction.data}
                     handleChangeAction={handleChangeAction}
-                    languageList={languageList}
+                    categoryList={categoryList}
                 />
             )}
 
             {selectedAction?.type === 'delete' && (
-                <DialogDeleteDictionary
+                <DialogDeleteImages
                     open={true}
                     refetch={refetch}
                     currentData={selectedAction.data}

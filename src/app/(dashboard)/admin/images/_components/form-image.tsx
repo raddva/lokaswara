@@ -12,30 +12,36 @@ import {
 import { Form } from '@/components/ui/form';
 import { Loader2 } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
-import { LanguageSelectItem } from '../actions';
+import { CategorySelectItem } from '../actions';
 import { FormEvent } from 'react';
-import { DictionaryForm } from '@/validations/dictionary-validation';
+import FormImage from '@/components/common/form-image';
+import { Preview } from '@/types/general';
+import { ImagesForm } from '@/validations/image-validation';
 
-export default function FormDictionary({
+export default function FormImages({
     form,
     onSubmit,
     isLoading,
     type,
-    languageList,
+    categoryList,
+    preview,
+    setPreview,
 }: {
-    form: UseFormReturn<DictionaryForm>;
+    form: UseFormReturn<ImagesForm>;
     onSubmit: (e: FormEvent<HTMLFormElement>) => void;
     isLoading: boolean;
     type: 'Create' | 'Update';
-    languageList: LanguageSelectItem[];
+    categoryList: CategorySelectItem[];
+    preview?: Preview;
+    setPreview?: (preview: Preview) => void;
 }) {
     return (
         <DialogContent className="sm:max-w-[425px] max-h-[90vh]">
             <Form {...form}>
                 <DialogHeader>
-                    <DialogTitle>{type} Dictionary</DialogTitle>
+                    <DialogTitle>{type} Images</DialogTitle>
                     <DialogDescription>
-                        {type === 'Create' ? 'Add a new dictionary' : 'Make changes dictionary here'}
+                        {type === 'Create' ? 'Add a new images' : 'Make changes images here'}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -43,34 +49,30 @@ export default function FormDictionary({
                     <div className="space-y-4 max-h-[50vh] px-1 overflow-y-auto">
                         <FormInput
                             form={form}
-                            name="word"
-                            label="Word"
-                            placeholder="Insert word here"
+                            name="title"
+                            label="Title"
+                            placeholder="Insert title here"
                         />
                         <FormInput
                             form={form}
-                            name="meaning"
-                            label="Meaning"
-                            placeholder="Insert meaning here"
+                            name="description"
+                            label="Description"
+                            placeholder="Insert description here"
+                            type="textarea"
                         />
-                        <FormInput
+                        <FormImage
                             form={form}
-                            name="synonym"
-                            label="Synonym"
-                            placeholder="Insert synonym here"
-                        />
-                        <FormInput
-                            form={form}
-                            name="pronunciation"
-                            label="Pronunciation"
-                            placeholder="Insert pronunciation here"
+                            name="image_url"
+                            label="Image"
+                            preview={preview}
+                            setPreview={setPreview}
                         />
                         <FormSelect
                             form={form}
-                            name="language_id"
-                            label="Language"
-                            placeholder="Select a language"
-                            selectItem={languageList}
+                            name="category_id"
+                            label="Category"
+                            placeholder="Select a category"
+                            selectItem={categoryList}
                         />
                     </div>
                     <DialogFooter>

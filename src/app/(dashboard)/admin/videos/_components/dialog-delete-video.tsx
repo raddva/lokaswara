@@ -1,55 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import DialogDelete from '@/components/common/dialog-delete';
 import { startTransition, useActionState, useEffect } from 'react';
-import { deleteContent } from '../actions';
+import { deleteVideos } from '../actions';
 import { INITIAL_STATE_ACTION } from '@/constants/general-constant';
 import { toast } from 'sonner';
-import { Content } from '@/validations/content-validation';
+import { Videos } from '@/validations/videos-validation';
 
-export default function DialogDeleteContent({
+export default function DialogDeleteVideos({
     open,
     refetch,
     currentData,
     handleChangeAction,
 }: {
     refetch: () => void;
-    currentData?: Content;
+    currentData?: Videos;
     open: boolean;
     handleChangeAction: (open: boolean) => void;
 }) {
-    const [deleteContentState, deleteContentAction, isPendingDeleteContent] =
-        useActionState(deleteContent, INITIAL_STATE_ACTION);
+    const [deleteVideosState, deleteVideosAction, isPendingDeleteVideos] =
+        useActionState(deleteVideos, INITIAL_STATE_ACTION);
 
     const onSubmit = () => {
         const formData = new FormData();
         formData.append('id', currentData!.id as string);
-        formData.append('image_url', currentData!.featured_image_url as string);
         startTransition(() => {
-            deleteContentAction(formData);
+            deleteVideosAction(formData);
         });
     };
 
     useEffect(() => {
-        if (deleteContentState?.status === 'error') {
-            toast.error('Delete Content Failed', {
-                description: deleteContentState.errors?._form?.[0],
+        if (deleteVideosState?.status === 'error') {
+            toast.error('Delete Video Failed', {
+                description: deleteVideosState.errors?._form?.[0],
             });
         }
 
-        if (deleteContentState?.status === 'success') {
-            toast.success('Delete Content Success');
+        if (deleteVideosState?.status === 'success') {
+            toast.success('Delete Video Success');
             handleChangeAction?.(false);
             refetch();
         }
-    }, [deleteContentState]);
+    }, [deleteVideosState]);
 
     return (
         <DialogDelete
             open={open}
             onOpenChange={handleChangeAction}
-            isLoading={isPendingDeleteContent}
+            isLoading={isPendingDeleteVideos}
             onSubmit={onSubmit}
-            title="Content"
+            title="Video"
         />
     );
 }

@@ -8,18 +8,19 @@ import { Input } from '@/components/ui/input';
 import useDataTable from '@/hooks/use-datatable';
 import { createClient } from '@/lib/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { Pencil, Settings, Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { HEADER_TABLE_DICTIONARY } from '@/constants/dictionary-constant';
-import DialogCreateDictionary from './dialog-create-dictionary';
-import DialogUpdateDictionary from './dialog-update-dictionary';
-import DialogDeleteDictionary from './dialog-delete-dictionary';
-import { LanguageSelectItem, getLanguages } from '../actions';
-import type { Dictionary } from '@/validations/dictionary-validation';
-import DialogLanguages from './dialog-languages';
+import { HEADER_TABLE_VIDEOS } from '@/constants/videos-constant';
+import DialogCreateVideos from './dialog-create-video';
+import DialogUpdateVideos from './dialog-update-video';
+import DialogDeleteVideos from './dialog-delete-video';
+import { ContentSelectItem, LanguageSelectItem, getContents, getLanguages } from '../actions';
+import type { Videos } from '@/validations/videos-validation';
+import { statusLabels, statusStyles } from '@/constants/content-constant';
+import { cn } from '@/lib/utils';
 
-export default function Dictionary() {
+export default function Videos() {
     const supabase = createClient();
     const {
         currentPage,
@@ -31,26 +32,26 @@ export default function Dictionary() {
     } = useDataTable();
 
     const {
-        data: dictionary,
+        data: videos,
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['dictionary', currentPage, currentLimit, currentSearch],
+        queryKey: ['videos', currentPage, currentLimit, currentSearch],
         queryFn: async () => {
             const query = supabase
-                .from('dictionary')
+                .from('videos')
                 .select('*', { count: 'exact' })
                 .range((currentPage - 1) * currentLimit, currentPage * currentLimit - 1)
                 .order('created_at', { ascending: false });
 
             if (currentSearch) {
-                query.or(`word.ilike.%${currentSearch}%`);
+                query.or(`title.ilike.%${currentSearch}%`);
             }
 
             const result = await query;
 
             if (result.error)
-                toast.error('Get Dictionary data failed', {
+                toast.error('Get Videos data failed', {
                     description: result.error.message,
                 });
 
@@ -58,13 +59,18 @@ export default function Dictionary() {
         },
     });
 
-    const { data: languageList = [], isLoading: isLoadingDictionaryList } = useQuery<LanguageSelectItem[]>({
+    const { data: languageList = [], isLoading: isLoadingLanguageList } = useQuery<LanguageSelectItem[]>({
         queryKey: ['languagesForSelect'],
         queryFn: getLanguages,
     });
 
+    const { data: contentList = [], isLoading: isLoadingContentList } = useQuery<ContentSelectItem[]>({
+        queryKey: ['contentForSelect'],
+        queryFn: getContents,
+    });
+
     const [selectedAction, setSelectedAction] = useState<{
-        data: Dictionary;
+        data: Videos;
         type: 'update' | 'delete';
     } | null>(null);
 
@@ -73,26 +79,28 @@ export default function Dictionary() {
     };
 
     const filteredData = useMemo(() => {
-        return (dictionary?.data || []).map((dictionary: Dictionary, index) => {
-            const uniqueKey = `${dictionary.id}-${index}`;
+        return (videos?.data || []).map((videos: Videos, index) => {
+            const uniqueKey = `${videos.id}-${index}`;
 
-            const languageName = languageList.find((c) => c.value === dictionary.language_id)?.label || dictionary.language_id;
+            const languageName = languageList.find((c) => c.value === videos.language_id)?.label || videos.language_id;
+            const contentName = contentList.find((c) => c.value === videos.content_id)?.label || videos.content_id;
 
             return [
                 currentLimit * (currentPage - 1) + index + 1,
-                <div key={`word-${uniqueKey}`} className="flex items-center gap-2">
-                    {dictionary.word}
-                </div>,
-                // <div key={`meaning-${uniqueKey}`} className="flex items-center gap-2">
-                //     {dictionary.meaning}
-                // </div>,
-                <div key={`synonym-${uniqueKey}`} className="flex items-center gap-2">
-                    {dictionary.synonym}
-                </div>,
-                <div key={`pronunciation-${uniqueKey}`} className="flex items-center gap-2">
-                    {dictionary.pronunciation}
+                <div key={`title-${uniqueKey}`} className="flex items-center gap-2">
+                    {videos.title}
                 </div>,
                 <span key={`language-${uniqueKey}`}>{languageName}</span>,
+                <span key={`content-${uniqueKey}`}>{contentName}</span>,
+                <div
+                    key={`status-${uniqueKey}`}
+                    className={cn(
+                        'px-2 py-1 rounded-full text-white text-xs font-medium w-fit',
+                        statusStyles[videos.publish_status] || 'bg-gray-500'
+                    )}
+                >
+                    {statusLabels[videos.publish_status] || videos.publish_status}
+                </div>,
                 <DropdownAction
                     key={`action-${uniqueKey}`}
                     menu={[
@@ -104,7 +112,7 @@ export default function Dictionary() {
                             ),
                             action: () => {
                                 setSelectedAction({
-                                    data: dictionary,
+                                    data: videos,
                                     type: 'update',
                                 });
                             },
@@ -118,7 +126,7 @@ export default function Dictionary() {
                             variant: 'destructive',
                             action: () => {
                                 setSelectedAction({
-                                    data: dictionary,
+                                    data: videos,
                                     type: 'delete',
                                 });
                             },
@@ -127,48 +135,41 @@ export default function Dictionary() {
                 />,
             ];
         });
-    }, [dictionary, currentPage, currentLimit, languageList]);
+    }, [videos, currentPage, currentLimit, languageList, contentList]);
 
     const totalPages = useMemo(() => {
-        return dictionary && dictionary.count !== null
-            ? Math.ceil(dictionary.count / currentLimit)
+        return videos && videos.count !== null
+            ? Math.ceil(videos.count / currentLimit)
             : 0;
-    }, [dictionary, currentLimit]);
+    }, [videos, currentLimit]);
 
     return (
         <div className="w-full">
             <div className="flex flex-col lg:flex-row mb-4 gap-2 justify-between w-full">
-                <h1 className="text-2xl font-bold">Dictionary Management</h1>
+                <h1 className="text-2xl font-bold">Videos Management</h1>
                 <div className="flex gap-2">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="outline" size="icon" title="Manage Languages">
-                                <Settings className="h-4 w-4" />
-                            </Button>
-                        </DialogTrigger>
-                        <DialogLanguages />
-                    </Dialog>
                     <Input
                         placeholder="Search..."
                         onChange={(e) => handleChangeSearch(e.target.value)}
                     />
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="outline" disabled={isLoadingDictionaryList}>
-                                {isLoadingDictionaryList ? 'Loading...' : 'Create'}
+                            <Button variant="outline" disabled={isLoadingLanguageList || isLoadingContentList}>
+                                {isLoadingLanguageList || isLoadingContentList ? 'Loading...' : 'Create'}
                             </Button>
                         </DialogTrigger>
 
-                        <DialogCreateDictionary
+                        <DialogCreateVideos
                             refetch={refetch}
                             languageList={languageList}
+                            contentList={contentList}
                         />
                     </Dialog>
                 </div>
             </div>
 
             <DataTable
-                header={HEADER_TABLE_DICTIONARY}
+                header={HEADER_TABLE_VIDEOS}
                 data={filteredData}
                 isLoading={isLoading}
                 totalPages={totalPages}
@@ -179,17 +180,18 @@ export default function Dictionary() {
             />
 
             {selectedAction?.type === 'update' && (
-                <DialogUpdateDictionary
+                <DialogUpdateVideos
                     open={true}
                     refetch={refetch}
                     currentData={selectedAction.data}
                     handleChangeAction={handleChangeAction}
                     languageList={languageList}
+                    contentList={contentList}
                 />
             )}
 
             {selectedAction?.type === 'delete' && (
-                <DialogDeleteDictionary
+                <DialogDeleteVideos
                     open={true}
                     refetch={refetch}
                     currentData={selectedAction.data}

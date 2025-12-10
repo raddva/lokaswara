@@ -8,6 +8,7 @@ import {
   Utensils,
   Video,
   ListTree,
+  MessageSquare,
 } from "lucide-react";
 
 export const SIDEBAR_MENU_LIST = {
@@ -49,8 +50,13 @@ export const SIDEBAR_MENU_LIST = {
     },
     {
       title: "Requests",
-      url: "/admin/requests",
+      url: "/admin/content-request",
       icon: Inbox,
+    },
+    {
+      title: "Feedbacks",
+      url: "/admin/feedbacks",
+      icon: MessageSquare,
     },
   ],
   user: [

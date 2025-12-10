@@ -23,6 +23,8 @@ export default function DialogDeleteFoods({
     const onSubmit = () => {
         const formData = new FormData();
         formData.append('id', currentData!.id as string);
+        formData.append('image_url', currentData!.image_url as string);
+
         startTransition(() => {
             deleteFoodsAction(formData);
         });

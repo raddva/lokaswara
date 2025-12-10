@@ -1,55 +1,55 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import DialogDelete from '@/components/common/dialog-delete';
 import { startTransition, useActionState, useEffect } from 'react';
-import { deleteContent } from '../actions';
+import { deleteImages } from '../actions';
 import { INITIAL_STATE_ACTION } from '@/constants/general-constant';
 import { toast } from 'sonner';
-import { Content } from '@/validations/content-validation';
+import { Images } from '@/validations/image-validation';
 
-export default function DialogDeleteContent({
+export default function DialogDeleteImages({
     open,
     refetch,
     currentData,
     handleChangeAction,
 }: {
     refetch: () => void;
-    currentData?: Content;
+    currentData?: Images;
     open: boolean;
     handleChangeAction: (open: boolean) => void;
 }) {
-    const [deleteContentState, deleteContentAction, isPendingDeleteContent] =
-        useActionState(deleteContent, INITIAL_STATE_ACTION);
+    const [deleteImagesState, deleteImagesAction, isPendingDeleteImages] =
+        useActionState(deleteImages, INITIAL_STATE_ACTION);
 
     const onSubmit = () => {
         const formData = new FormData();
         formData.append('id', currentData!.id as string);
-        formData.append('image_url', currentData!.featured_image_url as string);
+        formData.append('image_url', currentData!.image_url as string);
         startTransition(() => {
-            deleteContentAction(formData);
+            deleteImagesAction(formData);
         });
     };
 
     useEffect(() => {
-        if (deleteContentState?.status === 'error') {
-            toast.error('Delete Content Failed', {
-                description: deleteContentState.errors?._form?.[0],
+        if (deleteImagesState?.status === 'error') {
+            toast.error('Delete Image Failed', {
+                description: deleteImagesState.errors?._form?.[0],
             });
         }
 
-        if (deleteContentState?.status === 'success') {
-            toast.success('Delete Content Success');
+        if (deleteImagesState?.status === 'success') {
+            toast.success('Delete Image Success');
             handleChangeAction?.(false);
             refetch();
         }
-    }, [deleteContentState]);
+    }, [deleteImagesState]);
 
     return (
         <DialogDelete
             open={open}
             onOpenChange={handleChangeAction}
-            isLoading={isPendingDeleteContent}
+            isLoading={isPendingDeleteImages}
             onSubmit={onSubmit}
-            title="Content"
+            title="Image"
         />
     );
 }
