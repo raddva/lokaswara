@@ -1,6 +1,5 @@
 "use client";
 
-import { BottomNav } from '@/components/common/bottom-nav';
 import Navbar from '@/components/common/navbar';
 import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
