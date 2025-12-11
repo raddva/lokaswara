@@ -1,5 +1,6 @@
 'use client'
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 interface aboutItems {
   title: string,
@@ -45,7 +46,7 @@ export default function VisiMisi() {
               className="border-2 border-white rounded-xl p-5 backdrop-blur-lg"
             >
               <div className="flex gap-3 items-center">
-                <img src="/assets/logo_white.svg" alt="logo" width={30} />
+                <Image src="/assets/logo_white.svg" alt="logo" width={30} height={30} />
                 <h2 className="text-2xl font-bold">{item.title}</h2>
               </div>
               <p className="text-justify pt-2">{item.desc}</p>

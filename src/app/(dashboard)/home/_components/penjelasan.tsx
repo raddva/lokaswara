@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button"
 import { Element, scroller } from "react-scroll"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+import { routerServerGlobal } from "next/dist/server/lib/router-utils/router-server-context"
 
 interface imageData {
   link: string,
@@ -24,6 +26,8 @@ const imageProps: imageData[] = [
 ]
 
 export default function Penjelasan() {
+  const router = useRouter()
+
   return (
     <Element name="fact">
       <section
@@ -37,6 +41,7 @@ export default function Penjelasan() {
             transition={{
               duration: 0.5
             }}
+            viewport={{ once: true }}
             className="text-8xl font-bold"
           >
             Taukah kamu?
@@ -56,11 +61,7 @@ export default function Penjelasan() {
             variant={'default'}
             className="h-12"
             onClick={() => {
-              scroller.scrollTo("category", {
-                duration: 800,
-                smooth: "easeInOutQuart",
-                offset: -10,
-              });
+              router.push('/more')
             }}
           >
             Selengkapnya
