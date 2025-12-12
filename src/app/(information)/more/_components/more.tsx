@@ -1,4 +1,7 @@
+'use client'
 import Image from "next/image";
+import MapComponent from "./map";
+import SundaMap from "./map";
 
 export default function MoreSection() {
   return (
@@ -13,7 +16,10 @@ export default function MoreSection() {
         <p className="text-2xl text-justify">Dalam kehidupan sehari-hari, masyarakat Sunda dikenal memiliki tata krama yang tinggi, ramah (someah), serta menjunjung nilai “silih asih, silih asah, silih asuh” yang berarti saling menyayangi, saling mengajari, dan saling membimbing. Keunikan budaya Sunda juga terlihat dari keseniannya, seperti angklung, kacapi suling, wayang golek, serta tarian yang lembut dan anggun.</p>
         <div>
           <h2 className="font-bold text-4xl">Location</h2>
-          <p className="text-2xl text-justify mt-3 border-2 border-white rounded-xl p-2">Secara geografis, Suku Sunda terutama mendiami wilayah Jawa Barat, Banten, dan sebagian DKI Jakarta, dengan kota-kota penting seperti Bandung, Bogor, Sukabumi, Garut, dan Cirebon.</p>
+          <div className="mt-3 border-2 border-white rounded-xl p-2 flex flex-col gap-5">
+            <p className="text-2xl text-justify">Secara geografis, Suku Sunda terutama mendiami wilayah Jawa Barat, Banten, dan sebagian DKI Jakarta, dengan kota-kota penting seperti Bandung, Bogor, Sukabumi, Garut, dan Cirebon.</p>
+            <SundaMap />
+          </div>
         </div>
         <div>
           <h2 className="font-bold text-4xl">Ciri Khas</h2>
