@@ -15,25 +15,25 @@ const cardProps: cardItem[] = [
   {
     name: "Makanan",
     image: "makanan",
-    desc: "Masakan Sunda dikenal dengan cita rasa yang segar, ringan, dan alami, banyak menggunakan lalapan, sambal, serta bumbu sederhana. Hidangan seperti nasi timbel, karedok, pepes, dan sayur asem menggambarkan kedekatan masyarakat Sunda dengan alam serta gaya hidup sehat yang turun-temurun.",
+    desc: "Masakan Sunda bercita rasa segar dan alami, didominasi lalapan, sambal, dan hidangan ringan seperti karedok, pepes, dan nasi liwet.",
     link: "/makanan"
   },
   {
     name: "Keunikan",
     image: "gambar3",
-    desc: "Suku Sunda terkenal dengan sifatnya yang ramah, lemah lembut, dan menjunjung tinggi kesopanan. Bahasa Sunda memiliki tingkatan tutur yang unik, mencerminkan rasa hormat dalam interaksi sosial. Seni musik, tarian, serta keindahan alam pegunungan menjadi ciri khas yang membuat budaya Sunda begitu menonjol.",
+    desc: "Suku Sunda terkenal ramah dan lemah lembut, dengan bahasa bertingkat sebagai bentuk sopan santun serta budaya yang dekat dengan alam.",
     link: "/keunikan"
   },
   {
     name: "Seni",
     image: "seni",
-    desc: "Suku Sunda terkenal dengan sifatnya yang ramah, lemah lembut, dan menjunjung tinggi kesopanan. Bahasa Sunda memiliki tingkatan tutur yang unik, mencerminkan rasa hormat dalam interaksi sosial. Seni musik, tarian, serta keindahan alam pegunungan menjadi ciri khas yang membuat budaya Sunda begitu menonjol.",
+    desc: "Seni tradisional seperti angklung, kecapi suling, jaipong, dan wayang golek menjadi ciri kuat budaya Sunda yang penuh harmoni.",
     link: "/seni"
   },
   {
     name: "Tradisi",
     image: "tradisi",
-    desc: "Suku Sunda terkenal dengan sifatnya yang ramah, lemah lembut, dan menjunjung tinggi kesopanan. Bahasa Sunda memiliki tingkatan tutur yang unik, mencerminkan rasa hormat dalam interaksi sosial. Seni musik, tarian, serta keindahan alam pegunungan menjadi ciri khas yang membuat budaya Sunda begitu menonjol.",
+    desc: "Tradisi seperti seren taun dan berbagai ritual adat mencerminkan rasa syukur, kebersamaan, dan hubungan erat dengan alam.",
     link: "/tradisi"
   },
 ]
@@ -59,7 +59,12 @@ export default function Category() {
                 }}
                 viewport={{ once: true }}
               >
-                <CustomCard title={item.name} desc={item.desc} image={`/assets/${item.image}.jpeg`} />
+                <CustomCard 
+                  title={item.name} 
+                  desc={item.desc} 
+                  image={`/assets/${item.image}.jpeg`}
+                  route={item.link}
+                />
               </motion.div>
             )
           })}
