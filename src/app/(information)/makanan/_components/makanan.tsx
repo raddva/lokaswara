@@ -50,7 +50,7 @@ export default function MakananSundaPage() {
                   title={item.name}
                   desc={item.description}
                   image={item.image_url}
-                  route={`/${item.slug}`}
+                  route={`/makanan/${item.slug}`}
                 />
               </motion.div>
             ))}
