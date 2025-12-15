@@ -1,10 +1,8 @@
 'use client'
 import { Button } from "@/components/ui/button"
-import { Element, scroller } from "react-scroll"
+import { Element } from "react-scroll"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { routerServerGlobal } from "next/dist/server/lib/router-utils/router-server-context"
-
 interface imageData {
   link: string,
   position: string

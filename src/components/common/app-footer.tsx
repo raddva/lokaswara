@@ -1,7 +1,13 @@
+'use client'
 import { Instagram, Mail } from "lucide-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { scroller } from "react-scroll";
 
 export default function Footer() {
+  const pathname = usePathname()
+  const router = useRouter()
+
   return (
     <footer className="backdrop-blur-xl px-32 py-10">
       <div className="flex justify-between">
@@ -14,17 +20,29 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-col gap-5 items-center">
-          <div className="flex gap-10 pb-10"> 
+          <div className="flex gap-10 pb-10">
             <div className="flex flex-col gap-5">
               <h2 className="font-semibold text-lg">Navigasi</h2>
-              <ul  className="flex flex-col gap-3">
-                <li>Beranda</li>
+              <ul className="flex flex-col gap-3">
+                <li onClick={() =>
+                  pathname === 'home' ? () => {
+                    scroller.scrollTo("hero", {
+                      duration: 800,
+                      smooth: "easeInOutQuart",
+                      offset: -10,
+                    })
+                  } : router.push('/home')
+                }
+                  className="cursor-pointer"
+                >
+                  Beranda
+                </li>
                 <li>Informasi</li>
                 <li>Tentang Kami</li>
                 <li>Profil</li>
               </ul>
             </div>
-            <div  className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5">
               <h2 className="font-semibold text-lg">Kategori</h2>
               <ul className="flex flex-col gap-3">
                 <li>Makanan</li>
@@ -34,10 +52,10 @@ export default function Footer() {
               </ul>
             </div>
           </div>
-      </div>
+        </div>
       </div>
       <div>
-        
+
       </div>
       <hr className="h-2" />
       <h5>&copy; 2025 LokaSwara. All rights reserved</h5>
