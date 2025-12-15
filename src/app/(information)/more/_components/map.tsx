@@ -1,14 +1,14 @@
 "use client";
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-  interface sebaranProps {
-    nama: string,
-    desc: string,
-    lat: number,
-    lng: number
-  }
+interface sebaranProps {
+  nama: string,
+  desc: string,
+  lat: number,
+  lng: number
+}
 
-const sebaranSunda:sebaranProps[] = [
+const sebaranSunda: sebaranProps[] = [
   { nama: "Bandung", desc: "Pusat budaya Sunda.", lat: -6.9175, lng: 107.6191 },
   { nama: "Bogor", desc: "Wilayah budaya Sunda.", lat: -6.5971, lng: 106.8060 },
   { nama: "Cirebon", desc: "Campuran Sunda dan Jawa.", lat: -6.7063, lng: 108.5570 },

@@ -9,22 +9,22 @@ export function FoodCard(name: string) {
   const slug = encodeURIComponent(name.toLowerCase().replace(/\s+/g, "-"));
 
   return (
-    <div 
+    <div
       className="p-4 bg-white shadow cursor-pointer"
       onClick={() => router.push(`/makanan/${slug}`)}
-      
+
     >
       {name}
     </div>
   );
 }
 
-export default function Keunikan() {
+export default function Kebudayaan() {
   return (
     <section className="bg-[url('/assets/gambar3.jpeg')] w-full inset-0 bg-cover relative items-center justify-center px-32 py-20">
       <div className="bg-linear-to-b from-black/70 to-black to-95% inset-0 absolute z-10 w-full h-full"></div>
       <div className="relative z-20 flex flex-col gap-10">
-        <h1 className="font-bold text-5xl">Keunikan Suku Sunda</h1>
+        <h1 className="font-bold text-5xl">Kebudayaan Suku Sunda</h1>
         <ol className="flex flex-col gap-5">
           <li className="list-decimal ml-5 font-bold text-xl">
             <h1 className="font-bold text-xl">Asal-usul dan Nilai Dasar Adat Sunda</h1>

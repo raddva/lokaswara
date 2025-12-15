@@ -2,9 +2,6 @@
 
 import { useParams } from "next/navigation"
 import { foodItems } from "../../data/food"
-import { Item } from "@radix-ui/react-dropdown-menu"
-import Image from "next/image"
-import Navbar from "@/components/common/app-navbar"
 
 export default function MakananDetail() {
   const { slug } = useParams()

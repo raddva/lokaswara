@@ -1,11 +1,11 @@
 import Navbar from "@/components/common/app-navbar";
-import Keunikan from "./_components/keunikan";
+import Keunikan from "./_components/kebudayaan";
 
 export const metadata = {
-    title: 'LokaSwara | Jelajahi keunikan suku sunda',
+  title: 'LokaSwara | Jelajahi kebudayaan suku sunda',
 };
 
-export default function KeunikanPage() {
+export default function KebudayaanPage() {
   return (
     <main>
       <Navbar />

@@ -1,3 +1,4 @@
+import Footer from '@/components/common/app-footer';
 import { ReactNode } from 'react';
 
 type AuthLayoutProps = {
@@ -10,6 +11,7 @@ export default function ProfileLayout({ children }: AuthLayoutProps) {
             <div className="">
             </div>
             <div className="">{children}</div>
+            <Footer />
         </div>
     );
 }

@@ -42,6 +42,7 @@ export default function DialogCreateFoods({
         const formData = new FormData();
 
         formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('ingredients', data.ingredients);
         formData.append('tutorial', data.tutorial);
         formData.append('category_id', data.category_id);
