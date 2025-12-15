@@ -1,3 +1,4 @@
+import Footer from "@/components/common/app-footer"
 
 
 export default function RootLayout({
@@ -8,6 +9,7 @@ export default function RootLayout({
   return (
     <main>
       {children}
+      <Footer />
     </main>
   )
 }
