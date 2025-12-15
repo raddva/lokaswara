@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Card, CardDescription, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface CardProps {
   image: string;
@@ -11,8 +11,6 @@ interface CardProps {
 }
 
 export default function CustomCard({ image, title, desc, route }: CardProps) {
-  const router = useRouter()
-
   return (
     <Card
       className=" w-full max-w-sm mx-auto bg-black/60 border border-white/10 backdrop-blur-xl p-5 rounded-2xl shadow-xl transition hover:shadow-2xl hover:border-white/20">
@@ -36,13 +34,16 @@ export default function CustomCard({ image, title, desc, route }: CardProps) {
         </CardDescription>
       </div>
 
-      <Button
-        variant={"default"}
-        className="bg-linear-to-r from-blue-500 to-indigo-600  text-white shadow-lg rounded-xl w-full py-2  hover:from-blue-600  hover:to-indigo-700 transition-all"
-        onClick={() => router.push(`${route}`)}
-      >
-        Selengkapnya
-      </Button>
+      <Link href={route} className="w-full">
+        <Button
+          variant="default"
+          className="w-full bg-linear-to-r from-blue-500 to-indigo-600
+               text-white shadow-lg rounded-xl py-2
+               hover:from-blue-600 hover:to-indigo-700 transition-all"
+        >
+          Selengkapnya
+        </Button>
+      </Link>
     </Card>
   );
 }

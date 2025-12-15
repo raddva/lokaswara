@@ -1,61 +1,90 @@
-import Image from "next/image"
+"use client";
 
-interface AlatMusikProps {
-  name: string,
-  desc: string,
-  image: string
-}
-
-const AlatMusikItems: AlatMusikProps[] = [
-  {
-    name: "Angklung",
-    desc: "Angklung adalah alat musik bambu khas Sunda yang terdiri dari dua hingga tiga tabung bambu berbeda ukuran yang dipasang pada rangka, menghasilkan nada tertentu ketika digoyangkan. Alat musik ini biasanya dimainkan secara berkelompok, karena setiap angklung hanya menghasilkan satu nada sehingga diperlukan kerja sama antar pemain untuk membentuk melodi lengkap. Cara memainkannya yaitu dengan menggenggam rangkanya lalu menggoyangkannya ke kiri dan kanan sesuai irama, sehingga tabung bambu bergetar dan menciptakan nada yang harmonis.",
-    image: "angklung"
-  },
-  {
-    name: "Calung",
-    desc: "Calung adalah alat musik bambu yang mirip dengan angklung tetapi dimainkan dengan cara dipukul, bukan digoyangkan. Bilah-bilah bambu tersusun seperti papan nada dan menghasilkan suara cerah serta ritmis, sering digunakan dalam pertunjukan rakyat Sunda. Cara memainkannya, pemain memukul bilah bambu menggunakan kedua tangan, menghasilkan pola ritme dan melodi yang teratur serta dapat dikombinasikan dengan alat musik lain seperti kendang atau angklung.",
-    image: "calung"
-  },
-  {
-    name: "Kacapi",
-    desc: "Kacapi adalah alat musik petik tradisional Sunda yang memiliki bentuk seperti perahu dan menghasilkan suara lembut serta melankolis. Kacapi digunakan dalam berbagai jenis musik Sunda seperti kacapi suling, tembang Cianjuran, dan musik pengiring tradisi. Cara memainkannya, pemain duduk di depan kacapi lalu memetik senar-senarnya dengan jari-jari tangan, menciptakan melodi dasar, pengiring, atau pola ornamen sesuai kebutuhan lagu.",
-    image: "kacapi"
-  },
-  {
-    name: "Suling Sunda",
-    desc: "Suling Sunda adalah seruling bambu dengan enam lubang nada, terkenal karena suaranya yang lembut, melayang, dan penuh ekspresi. Suling ini sering digunakan dalam degung, kacapi suling, tembang Sunda, hingga pertunjukan tari. Cara memainkannya, pemain meniup lubang tiup sambil mengatur bukaan lubang nada dengan jari, menggunakan teknik napas yang halus dan stabil untuk menghasilkan nada panjang, vibrasi lembut, serta ornamentasi khas Sunda.",
-    image: "suling"
-  }
-]
-
+import { useEffect, useState } from "react";
+import { getContentByCategory, ContentT } from "../actions";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FileImage } from "lucide-react";
 
 export default function AlatMusik() {
+  const [alatMusikItems, setAlatMusikItems] = useState<ContentT[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getContentByCategory("Musik");
+      setAlatMusikItems(data);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  const ContentImage = ({ src, title }: { src?: string; title: string }) => {
+    const [imgError, setImgError] = useState(false);
+
+    if (!src || imgError) {
+      return (
+        <Avatar className="w-full h-56 md:h-64 rounded-lg">
+          <AvatarFallback className="bg-gray-200 flex items-center justify-center">
+            <FileImage className="w-12 h-12 text-gray-400" />
+          </AvatarFallback>
+        </Avatar>
+      );
+    }
+
+    return (
+      <Image
+        src={src}
+        alt={title}
+        width={300}
+        height={400}
+        className="w-full h-56 md:h-64 rounded-lg object-cover"
+        onError={() => setImgError(true)}
+      />
+    );
+  };
+
+  const SkeletonCard = () => (
+    <div className="animate-pulse bg-gray-200/30 backdrop-blur-md rounded-lg h-56 md:h-64 w-full mb-8"></div>
+  );
+
   return (
-    <section className="bg-[url('/assets/alatmusikbg.jpeg')] bg-cover px-32 py-20 items-center jsutify-center relative">
-      <div className="bg-linear-to-b from-black/50 to-black to-95% inset-0 absolute z-10 w-full h-full"></div>
-      <div className="relative z-20  flex flex-col gap-20">
-        <h1 className="text-5xl font-bold">Jelajahi Seni dan Alat Musik Suku Sunda</h1>
-        <div
-          className="flex flex-col gap-10"
-        >
-          <h2 className="font-bold text-4xl">Alat Musik</h2>
-          {AlatMusikItems.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="flex gap-5"
-              >
-                <Image src={`/assets/${item.image}.jpg`} alt={item.image} width={200} height={200} className="w-40 h-60 rounded-xl" />
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-bold text-3xl">{item.name}</h3>
-                  <p className="text-2xl text-justify">{item.desc}</p>
-                </div>
+    <section className="relative px-4 sm:px-8 md:px-16 lg:px-32 py-20">
+
+      <div className="relative z-20 flex flex-col gap-16">
+        <h1 className="text-4xl md:text-5xl font-bold text-white">
+          <span className="relative inline-block">
+            <span className="bg-linear-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+              Jelajahi Seni dan Alat Musik Suku Sunda
+            </span>
+
+            <div className="relative z-10 h-1 w-20 bg-linear-to-r from-purple-500 to-blue-500 rounded-full mt-2" />
+          </span>
+        </h1>
+
+        {loading
+          ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
+          : alatMusikItems.map((item) => (
+            <motion.div
+              key={item.id}
+              className="flex flex-col md:flex-row gap-6 bg-white/20 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="w-full md:w-1/3 shrink-0">
+                <ContentImage src={item.featured_image_url} title={item.title} />
               </div>
-            )
-          })}
-        </div>
+
+              <div className="w-full md:w-2/3 flex flex-col justify-between text-white">
+                <h2 className="text-2xl md:text-3xl font-bold mb-2">{item.title}</h2>
+                <p className="text-sm md:text-base text-justify">{item.body}</p>
+              </div>
+            </motion.div>
+          ))}
       </div>
     </section>
-  )
+  );
 }

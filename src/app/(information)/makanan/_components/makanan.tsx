@@ -25,7 +25,13 @@ export default function MakananSundaPage() {
 
       <div className="relative z-20 flex flex-col gap-10">
         <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl">
-          Jelajahi Makanan Khas Sunda
+          <span className="relative inline-block">
+            <span className="bg-linear-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+              Jelajahi Makanan Khas Sunda
+            </span>
+
+            <div className="relative z-10 h-1 w-20 bg-linear-to-r from-purple-500 to-blue-500 rounded-full mt-2" />
+          </span>
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
