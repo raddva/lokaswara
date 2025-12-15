@@ -10,7 +10,6 @@ export const metadata = {
 export default function SeniPage() {
   return (
     <main className="relative min-h-screen">
-      {/* Unified background */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-black/50"></div>
         <Image
@@ -22,7 +21,6 @@ export default function SeniPage() {
         />
       </div>
 
-      {/* Page content */}
       <div className="relative z-10">
         <Navbar />
         <AlatMusik />
