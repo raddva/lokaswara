@@ -1,7 +1,15 @@
-export const HEADER_TABLE_FOODS = ["No", "Image", "Name", "Category", "Action"];
+export const HEADER_TABLE_FOODS = [
+  "No",
+  "Image",
+  "Name",
+  "Description",
+  "Category",
+  "Action",
+];
 
 export const INITIAL_FOODS = {
   name: "",
+  description: "",
   ingredients: "",
   tutorial: "",
   category_id: "",
@@ -13,6 +21,7 @@ export const INITIAL_STATE_FOODS = {
   errors: {
     id: [],
     name: [],
+    description: [],
     ingredients: [],
     tutorial: [],
     category_id: [],

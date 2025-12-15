@@ -95,6 +95,9 @@ export default function Foods() {
                 <div key={`name-${uniqueKey}`} className="flex items-center gap-2">
                     {foods.name}
                 </div>,
+                <div key={`name-${uniqueKey}`} className="flex items-center gap-2">
+                    {foods.description}
+                </div>,
                 <span key={`category-${uniqueKey}`}>{categoryName}</span>,
                 <DropdownAction
                     key={`action-${uniqueKey}`}

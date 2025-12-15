@@ -40,6 +40,7 @@ export default function DialogUpdateFoods({
         resolver: zodResolver(updateFormSchema),
         defaultValues: {
             name: '',
+            description: '',
             ingredients: '',
             tutorial: '',
             category_id: '',
@@ -54,6 +55,7 @@ export default function DialogUpdateFoods({
         if (currentData) {
             form.reset({
                 name: currentData.name,
+                description: currentData.description || '',
                 ingredients: currentData.ingredients || '',
                 tutorial: currentData.tutorial || '',
                 category_id: currentData.category_id || '',
@@ -100,6 +102,7 @@ export default function DialogUpdateFoods({
     const onSubmit = form.handleSubmit((data) => {
         const formData = new FormData();
         formData.append('name', data.name);
+        formData.append('description', data.description);
         formData.append('ingredients', data.ingredients);
         formData.append('tutorial', data.tutorial);
         formData.append('category_id', data.category_id);

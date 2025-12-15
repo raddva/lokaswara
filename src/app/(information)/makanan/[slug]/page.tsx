@@ -21,7 +21,7 @@ export default async function FoodDetailPage({
       <Navbar />
       <section className="px-32 py-20">
         <h1>{formatTitle(nama)}</h1>
-        
+
       </section>
     </main>
   )
