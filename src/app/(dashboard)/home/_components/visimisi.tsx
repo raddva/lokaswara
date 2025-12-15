@@ -29,15 +29,15 @@ interface AboutItem {
 const aboutProps: AboutItem[] = [
   {
     title: "LokaSwara",
-    desc: "Platform digital yang kami kembangkan untuk melestarikan budaya Indonesia..."
+    desc: "Platform digital yang kami kembangkan untuk melestarikan budaya Indonesia dengan cara yang modern dan mudah diakses. Melalui situs ini, pengguna dapat menikmati berbagai konten budaya seperti seni, tradisi, bahasa, dan cerita rakyat yang dikemas secara menarik. Lokaswara juga menjadi ruang kolaborasi antara kreator, komunitas budaya, dan masyarakat umum untuk berbagi pengetahuan serta karya. Dengan pendekatan digital, Lokaswara bertujuan menjaga warisan budaya Indonesia tetap hidup"
   },
   {
     title: "Tujuan",
-    desc: "Menjaga keberlanjutan budaya Indonesia dengan mengubahnya ke dalam format digital..."
+    desc: "Menjaga keberlanjutan budaya Indonesia dengan mengubahnya ke dalam format digital yang lebih mudah dijangkau generasi masa kini. Kami ingin menghadirkan media pembelajaran dan hiburan yang memperkenalkan kekayaan tradisi, seni, dan nilai budaya secara menarik. Upaya ini juga bertujuan memperluas jangkauan pelestarian budaya hingga ke masyarakat global melalui teknologi. Selain itu, kami berharap produk digital ini dapat menumbuhkan rasa bangga dan kepedulian masyarakat terhadap warisan budaya bangsa."
   },
   {
     title: "Visi Misi",
-    desc: "Menjadi penggerak utama pelestarian budaya Indonesia melalui inovasi produk digital..."
+    desc: "Menjadi penggerak utama pelestarian budaya Indonesia melalui inovasi produk digital yang mudah diakses oleh seluruh masyarakat. Misi kami mencakup pengembangan platform yang menghadirkan konten budaya secara autentik, edukatif, dan menarik. Kami berkomitmen untuk berkolaborasi dengan komunitas, seniman, dan pelaku budaya guna memastikan warisan leluhur tetap relevan di era modern. Selain itu, kami berupaya memanfaatkan teknologi untuk mendokumentasikan, mempromosikan, dan menyebarkan nilai-nilai budaya ke generasi mendatang."
   },
 ]
 
@@ -133,111 +133,113 @@ export default function VisiMisi() {
           agar warisan lokal tetap hidup dan relevan di era digital.
         </motion.p>
 
-        <div className="relative z-10 flex flex-col gap-6 max-w-3xl">
-          {aboutProps.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15, duration: 0.6 }}
-              className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg"
-            >
-              <div className="flex items-center gap-3">
-                <Image src="/assets/logo_white.svg" alt="logo" width={28} height={28} />
-                <h2 className="text-lg sm:text-xl font-semibold tracking-tight">{item.title}</h2>
-              </div>
-              <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/85">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
+        <div className="flex justify-between flex-col lg:flex-row gap-5">
+          <div className="relative z-10 flex flex-col gap-6 max-w-3xl">
+            {aboutProps.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.15, duration: 0.6 }}
+                className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg"
+              >
+                <div className="flex items-center gap-3">
+                  <Image src="/assets/logo_white.svg" alt="logo" width={28} height={28} />
+                  <h2 className="text-lg sm:text-xl font-semibold tracking-tight">{item.title}</h2>
+                </div>
+                <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/85">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
 
-        <div className="relative z-20 flex flex-col gap-5">
-          {["feedback", "content"].map((type) => {
-            const Icon = type === "feedback" ? ThumbsUp : MessageCircle
-            const label = type === "feedback" ? "Feedback" : "Saran Konten"
-            const title = type === "feedback" ? "Berikan Feedback Untuk Kami!" : "Berikan Saran Konten Untuk Kami!"
-            const description = "Hal ini dapat membantu kami dalam pengembangan website ini lebih lanjut."
+          <div className="relative z-20 flex flex-col gap-5 ">
+            {["feedback", "content"].map((type) => {
+              const Icon = type === "feedback" ? ThumbsUp : MessageCircle
+              const label = type === "feedback" ? "Feedback" : "Saran Konten"
+              const title = type === "feedback" ? "Berikan Feedback Untuk Kami!" : "Berikan Saran Konten Untuk Kami!"
+              const description = "Hal ini dapat membantu kami dalam pengembangan website ini lebih lanjut."
 
-            return (
-              <div key={type}>
-                {/* Main form dialog */}
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.15, duration: 0.6 }}
-                      className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg flex flex-col justify-center items-center cursor-pointer"
-                    >
-                      <Icon fill={type === "content" ? "white" : undefined} />
-                      <p className="text-white">{label}</p>
-                    </motion.div>
-                  </DialogTrigger>
+              return (
+                <div key={type}>
+                  {/* Main form dialog */}
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.15, duration: 0.6 }}
+                        className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg flex flex-col justify-center items-center cursor-pointer"
+                      >
+                        <Icon fill={type === "content" ? "white" : undefined} />
+                        <p className="text-white">{label}</p>
+                      </motion.div>
+                    </DialogTrigger>
 
-                  <DialogContent className="max-w-md mx-auto">
-                    <DialogHeader>
-                      <DialogTitle>{title}</DialogTitle>
-                      <DialogDescription>{description}</DialogDescription>
+                    <DialogContent className="max-w-md mx-auto">
+                      <DialogHeader>
+                        <DialogTitle>{title}</DialogTitle>
+                        <DialogDescription>{description}</DialogDescription>
 
-                      <Form {...form}>
-                        <form
-                          onSubmit={form.handleSubmit((values) => onSubmit(type as "feedback" | "content", values))}
-                          className="flex flex-col gap-5 mb-3"
-                        >
-                          <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="email@example.com" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="message"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Pesan</FormLabel>
-                                <FormControl>
-                                  <Textarea placeholder={`Tulis ${label.toLowerCase()} kamu...`} {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <Button type="submit" disabled={loading} className="w-full">
-                            {loading ? "Mengirim..." : `Kirim ${label}`}
-                          </Button>
-                        </form>
-                      </Form>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
+                        <Form {...form}>
+                          <form
+                            onSubmit={form.handleSubmit((values) => onSubmit(type as "feedback" | "content", values))}
+                            className="flex flex-col gap-5 mb-3"
+                          >
+                            <FormField
+                              control={form.control}
+                              name="email"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Email</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="email@example.com" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="message"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Pesan</FormLabel>
+                                  <FormControl>
+                                    <Textarea placeholder={`Tulis ${label.toLowerCase()} kamu...`} {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <Button type="submit" disabled={loading} className="w-full">
+                              {loading ? "Mengirim..." : `Kirim ${label}`}
+                            </Button>
+                          </form>
+                        </Form>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
 
-                {/* Success modal */}
-                <Dialog open={successType === type} onOpenChange={() => setSuccessType(null)}>
-                  <DialogContent className="max-w-md mx-auto">
-                    <DialogHeader className="text-center">
-                      <DialogTitle>Terima Kasih 🙏</DialogTitle>
-                      <DialogDescription>
-                        {type === "feedback"
-                          ? "Feedback kamu sudah kami terima."
-                          : "Saran konten kamu sudah kami terima."}
-                      </DialogDescription>
-                      <Button className="mt-6 w-full" onClick={() => setSuccessType(null)}>
-                        Tutup
-                      </Button>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            )
-          })}
+                  {/* Success modal */}
+                  <Dialog open={successType === type} onOpenChange={() => setSuccessType(null)}>
+                    <DialogContent className="max-w-md mx-auto">
+                      <DialogHeader className="text-center">
+                        <DialogTitle>Terima Kasih 🙏</DialogTitle>
+                        <DialogDescription>
+                          {type === "feedback"
+                            ? "Feedback kamu sudah kami terima."
+                            : "Saran konten kamu sudah kami terima."}
+                        </DialogDescription>
+                        <Button className="mt-6 w-full" onClick={() => setSuccessType(null)}>
+                          Tutup
+                        </Button>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
     </Element>

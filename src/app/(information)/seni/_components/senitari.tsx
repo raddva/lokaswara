@@ -51,7 +51,7 @@ export default function SeniTari() {
   );
 
   return (
-    <section className="relative px-4 sm:px-8 md:px-16 lg:px-32 py-10 bg-black/20 backdrop-blur-md">
+    <section className="relative px-4 sm:px-8 md:px-16 lg:px-32 py-10 bg-linear-to-b from-bg- to-bg-black/60 backdrop-blur-md">
       {loading
         ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
         : tariItems.map((item) => (
@@ -86,10 +86,14 @@ export default function SeniTari() {
         ))}
 
       {selectedVideo && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white p-4 rounded-lg relative w-full max-w-3xl">
+        <div className="fixed inset-0 z-50 flex justify-center items-center">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setSelectedVideo(null)}
+          />
+          <div className="relative z-10 bg-white p-4 rounded-lg w-full max-w-3xl mx-4">
             <button
-              className="absolute top-2 right-2 text-xl font-bold"
+              className="absolute top-0 -right-7 text-xl font-bold"
               onClick={() => setSelectedVideo(null)}
             >
               ×
