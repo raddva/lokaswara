@@ -25,7 +25,7 @@ export default function Penjelasan() {
 
   return (
     <Element name="fact">
-      <section className="min-h-screen bg-black px-4 sm:px-8 md:px-16 lg:px-32 py-12 md:py-0 flex flex-col md:flex-row justify-between items-center gap-8"
+      <section id="fact" className="min-h-screen bg-black px-4 sm:px-8 md:px-16 lg:px-32 py-12 md:py-0 flex flex-col md:flex-row justify-between items-center gap-8"
       // style={{ backgroundImage: `url('/assets/hero.png')` }}
       >
         <div className="flex flex-col gap-3 w-full md:w-1/2">
