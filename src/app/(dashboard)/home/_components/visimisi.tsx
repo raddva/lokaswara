@@ -1,6 +1,16 @@
 'use client'
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { motion } from "framer-motion"
+import { MessageCircle, ThumbsUp } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { Textarea } from "@/components/ui/textarea"
+import z from "zod"
 import { Element } from "react-scroll"
 
 interface aboutItems {
@@ -23,7 +33,45 @@ const aboutProps: aboutItems[] = [
   },
 ]
 
+const feedbackSchema = z.object({
+  email: z.string().email(),
+  message: z.string().min(5),
+})
+
 export default function VisiMisi() {
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const form = useForm<z.infer<typeof feedbackSchema>>({
+    resolver: zodResolver(feedbackSchema),
+    defaultValues: {
+      email: "",
+      message: "",
+    },
+  })
+
+  const onSubmit = async (
+    values: z.infer<typeof feedbackSchema>
+  ) => {
+    // setLoading(true)
+    // try {
+    //   await createFeedback(values)
+    //   form.reset()
+    //   setSuccess(true)
+    // } catch {
+    //   alert("Gagal mengirim feedback")
+    // } finally {
+    //   setLoading(false)
+    // }
+  }
+  if (success) {
+    return (
+      <div className="text-center py-20">
+        <h1 className="text-3xl font-bold">Terima kasih 🙏</h1>
+        <p>Feedback kamu sudah kami terima.</p>
+      </div>
+    )
+  }
+
   return (
     <Element name="visiMisi">
       <section
@@ -88,7 +136,157 @@ export default function VisiMisi() {
             </motion.div>
           ))}
         </div>
+        <div className="relative z-20 flex flex-col gap-5">
+          <Dialog>
+            <DialogTrigger>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: 0.15,
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: false }}
+                className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg flex flex-col justify-center items-center">
+                <ThumbsUp />
+                <p>Feedback</p>
+              </motion.div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Berikan Feedback Untuk Kami!</DialogTitle>
+                <DialogDescription>
+                  Hal ini dapat membantu kami dalam pengembangan website ini lebih lanjut.
+                </DialogDescription>
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col gap-5 mb-3"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xl">Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="email@example.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pesan</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Tulis feedback kamu..."
+                              className="min-h-[120px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      className="relative h-12 w-full rounded-xl p-px bg-linear-to-br from-purple-600 to-blue-500 shadow-lg overflow-hidden group">
+                      <span className="flex h-full w-full items-center justify-center rounded-xl bg-linear-to-br from-purple-600 to-blue-500 text-white font-medium transition-all duration-300 ease-out group-hover:bg-black/60 group-hover:bg-none">
+                        {loading ? "Mengirim..." : "Kirim Feedback"}
+                      </span>
+                    </Button>
+                  </form>
+                </Form>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+          <Dialog>
+            <DialogTrigger>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: 0.15,
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
+                viewport={{ once: false }}
+                className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg flex flex-col justify-center items-center">
+                <MessageCircle fill="white" />
+                <p className="text-white">Saran Konten</p>
+              </motion.div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Berikan Saran Konten Untuk Kami!</DialogTitle>
+                <DialogDescription>
+                  Hal ini dapat membantu kami dalam pengembangan website ini lebih lanjut.
+                </DialogDescription>
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col gap-5 mb-3"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xl">Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="email@example.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pesan</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Tulis saran kamu..."
+                              className="min-h-[120px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      className="relative h-12 w-full rounded-xl p-px bg-linear-to-br from-purple-600 to-blue-500 shadow-lg overflow-hidden group">
+                      <span className="flex h-full w-full items-center justify-center rounded-xl bg-linear-to-br from-purple-600 to-blue-500 text-white font-medium transition-all duration-300 ease-out group-hover:bg-black/60 group-hover:bg-none">
+                        {loading ? "Mengirim..." : "Kirim Saran"}
+                      </span>
+                    </Button>
+                  </form>
+                </Form>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>
       </section>
-    </Element>
+    </Element >
   )
 } 
