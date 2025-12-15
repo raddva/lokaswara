@@ -1,13 +1,13 @@
-import { ReactNode } from 'react';
 
-type AuthLayoutProps = {
-    children: ReactNode;
-};
 
-export default function InformationLayout({ children }: AuthLayoutProps) {
-    return (
-        <div>
-            <div>{children}</div>
-        </div>
-    );
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <main>
+      {children}
+    </main>
+  )
 }

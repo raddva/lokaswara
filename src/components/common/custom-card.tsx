@@ -40,7 +40,7 @@ export default function CustomCard({ image, title, desc, route }: CardProps) {
       <Button
         variant={"default"}
         className="bg-linear-to-r from-blue-500 to-indigo-600  text-white shadow-lg rounded-xl w-full py-2  hover:from-blue-600  hover:to-indigo-700 transition-all"
-        onClick={() => router.push(`/${router}`)}
+        onClick={() => router.push(`${route}`)}
       >
         Selengkapnya
       </Button>
