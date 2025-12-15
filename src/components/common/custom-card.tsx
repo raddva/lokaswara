@@ -15,8 +15,7 @@ export default function CustomCard({ image, title, desc, route }: CardProps) {
 
   return (
     <Card
-      className=" bg-black/60 border border-white/10 backdrop-blur-xl max-w-80 p-5 rounded-2xl shadow-xl transition hover:shadow-2xl  hover:border-white/20"
-    >
+      className=" w-full max-w-sm mx-auto bg-black/60 border border-white/10 backdrop-blur-xl p-5 rounded-2xl shadow-xl transition hover:shadow-2xl hover:border-white/20">
       <div className="overflow-hidden rounded-xl">
         <Image
           src={image}
@@ -28,7 +27,7 @@ export default function CustomCard({ image, title, desc, route }: CardProps) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <CardTitle className="font-semibold text-white text-2xl tracking-wide">
+        <CardTitle className="font-bold text-white text-2xl tracking-wide text-center">
           {title}
         </CardTitle>
 

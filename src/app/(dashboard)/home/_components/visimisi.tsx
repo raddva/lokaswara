@@ -25,34 +25,65 @@ const aboutProps: aboutItems[] = [
 export default function VisiMisi() {
   return (
     <section
-      className="h-screen bg-cover bg-bottom relative flex flex-col justify-center px-32 gap-10"
+      className="relative bg-cover bg-bottom min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-16 sm:py-20 flex flex-col justify-center gap-10"
       style={{ backgroundImage: `url('/assets/lastsection.jpeg')` }}
     >
       <div className="bg-linear-to-b from-black to-black/50 inset-0 absolute z-10 w-full h-full"></div>
-      <h1 className="text-5xl font-bold relative z-20">Tentang Kami</h1>
-      <div className="relative z-20 flex flex-col gap-5">
-        {aboutProps.map((item, index) => {
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.2 * index,
-                duration: 0.8,
-                ease: "easeOut"
-              }}
-              viewport={{ once: false }}
-              className="border-2 border-white rounded-xl p-5 backdrop-blur-lg"
-            >
-              <div className="flex gap-3 items-center">
-                <Image src="/assets/logo_white.svg" alt="logo" width={30} height={30} />
-                <h2 className="text-2xl font-bold">{item.title}</h2>
-              </div>
-              <p className="text-justify pt-2">{item.desc}</p>
-            </motion.div>
-          )
-        })}
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: false }}
+        className="relative z-10 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight max-w-3xl">
+        <span className="bg-linear-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+          Tentang Kami
+        </span>
+      </motion.h1>
+
+      <div className="relative z-10 h-1 w-20 bg-linear-to-r from-purple-500 to-blue-500 rounded-full mt-2" />
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+        viewport={{ once: false }}
+        className="relative z-10 max-w-2xl text-white/85 text-sm sm:text-base md:text-lg leading-relaxed">
+        Kami menghadirkan informasi budaya secara{" "}
+        <span className="text-white font-medium">ringkas</span>,{" "}
+        <span className="text-white font-medium">visual</span>, dan{" "}
+        <span className="text-white font-medium">mudah dipahami</span>,
+        agar warisan lokal tetap hidup dan relevan di era digital.
+      </motion.p>
+
+      <div className="relative z-10 flex flex-col gap-6 max-w-3xl">
+        {aboutProps.map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: index * 0.15,
+              duration: 0.6,
+              ease: "easeOut",
+            }}
+            viewport={{ once: false }}
+            className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/assets/logo_white.svg"
+                alt="logo"
+                width={28}
+                height={28}
+              />
+              <h2 className="text-lg sm:text-xl font-semibold tracking-tight">
+                {item.title}
+              </h2>
+            </div>
+
+            <p className="mt-2 text-sm sm:text-base leading-relaxed text-white/85 text-left">
+              {item.desc}
+            </p>
+          </motion.div>
+        ))}
       </div>
     </section>
   )

@@ -1,7 +1,10 @@
 'use client'
 import Image from "next/image";
-import MapComponent from "./map";
-import SundaMap from "./map";
+import dynamic from "next/dynamic";
+const SundaMap = dynamic(() => import("./map"), {
+  ssr: false,
+  loading: () => <div className="h-[200px] bg-gray-100 rounded-xl animate-pulse">Loading Map...</div>
+});
 
 export default function MoreSection() {
   return (

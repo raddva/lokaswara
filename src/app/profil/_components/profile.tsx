@@ -5,7 +5,7 @@ interface memberProps {
   name: string
 }
 
-const memberItems:memberProps[] = [
+const memberItems: memberProps[] = [
   {
     image: "darrel",
     name: "Darrel Mark Yoel Exaudi Silalahi"
@@ -47,7 +47,7 @@ export default function ProfileSection() {
       <div className="w-full h-full relative z-20 flex flex-col gap-10">
         <h1 className="text-5xl font-bold text-center">Profil Kelompok</h1>
         <div className="bg-white w-full h-full rounded-xl">
-          <Image src="" alt="" />
+          <Image src="logo.svg" alt="" width={300} height={300} />
         </div>
         <div className="flex flex-col justify-center gap-10">
           {memberItems.map((item, index) => {
@@ -58,7 +58,7 @@ export default function ProfileSection() {
               >
                 <Image src={`/assets/${item.image}.jpg`} alt={item.image} width={100} height={100} className="rounded-full" />
                 <h3 className="text-xl font-bold text-center">{item.name}</h3>
-                <p>{}</p>
+                <p>{ }</p>
               </div>
             )
           })}
