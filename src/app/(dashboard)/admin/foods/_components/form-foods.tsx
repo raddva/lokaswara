@@ -55,6 +55,13 @@ export default function FormFoods({
                         />
                         <FormInput
                             form={form}
+                            name="description"
+                            label="Description"
+                            placeholder="Insert description here"
+                            type="textarea"
+                        />
+                        <FormInput
+                            form={form}
                             name="ingredients"
                             label="Ingredients"
                             placeholder="Insert ingredients here"

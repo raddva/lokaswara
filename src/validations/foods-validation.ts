@@ -2,6 +2,7 @@ import z from "zod";
 
 export const foodsFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
   image_url: z.string().url("Image must be a valid URL").optional(),
   ingredients: z.string().min(1, "Ingredients is required"),
   tutorial: z.string().min(1, "Tutorial is required"),
@@ -10,6 +11,7 @@ export const foodsFormSchema = z.object({
 
 export const foodsSchema = z.object({
   name: z.string(),
+  description: z.string(),
   image_url: z.string().url().optional(),
   ingredients: z.string(),
   tutorial: z.string(),

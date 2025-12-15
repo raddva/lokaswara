@@ -1,74 +1,62 @@
 'use client'
-import { useRouter } from "next/navigation"
 import { Element } from "react-scroll"
 import { motion } from "framer-motion"
-
-interface cardItem {
-  name: string,
-  image: string,
-  link: string,
-}
-
-const cardProps: cardItem[] = [
-  {
-    name: "Makanan",
-    image: "makanan",
-    link: "/makanan"
-  },
-  {
-    name: "Keunikan",
-    image: "gambar3",
-    link: "/keunikan"
-  },
-  {
-    name: "Seni",
-    image: "seni",
-    link: "/seni"
-  },
-  {
-    name: "Tradisi",
-    image: "tradisi",
-    link: "/tradisi"
-  },
-]
+import CustomCard from "@/components/common/custom-card"
+import { useEffect, useState } from "react"
+import { CategoryItem, getCategories } from "../actions"
 
 export default function Category() {
-  const router = useRouter()
+  const [categories, setCategories] = useState<CategoryItem[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getCategories()
+      setCategories(data)
+    }
+
+    fetchCategories()
+  }, [])
 
   return (
     <Element name="category">
-      <section className="bg-black px-32 h-screen flex flex-col justify-center items-center gap-20">
-        <h1 className="text-5xl font-bold">Jelajahi Lebih Banyak</h1>
-        <div className="w-full flex justify-between">
-          {cardProps.map((item, index) => {
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  delay: 0.2 * index, 
-                  duration: 0.8, 
-                  ease: "easeOut"
-                }}
-                viewport={{ once: true }}
-                className="w-75 h-100 bg-cover bg-center rounded-xl flex items-end justify-center relative overflow-hidden p-10 cursor-pointer"
-                style={{ backgroundImage: `url('/assets/${item.image}.jpeg')` }}
-                onClick={() => {
-                  router.push(item.link)
-                }}
-              >
-                <div
-                  className="absolute bottom-0 w-full h-100 backdrop-blur-3xl"
-                  style={{
-                    maskImage: "linear-gradient(to top, black, transparent)",
-                    WebkitMaskImage: "linear-gradient(to top, black, transparent)",
-                  }}
-                ></div>
-                <h2 className="z-20 text-2xl font-bold">{item.name}</h2>
-              </motion.div>
-            )
-          })}
+      <section className="bg-black px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-12 sm:py-16 md:py-20 flex flex-col items-center gap-10 sm:gap-14 md:gap-16">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: false }}
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] text-center">
+          <span className="relative inline-block">
+            <span className="bg-linear-to-r from-purple-500 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
+              Jelajahi Lebih Banyak
+            </span>
+
+            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-[3px] w-24 rounded-full bg-linear-to-r from-purple-500 to-indigo-600 opacity-80" />
+          </span>
+        </motion.h1>
+
+
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8 place-items-center">
+          {categories.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: index * 0.1,
+                duration: 0.6,
+                ease: "easeOut",
+              }}
+              className="w-full"
+            >
+              <CustomCard
+                title={item.name}
+                desc={item.description}
+                image={`/assets/${item.slug}.jpeg`}
+                route={`/${item.slug}`}
+              />
+            </motion.div>
+          ))}
         </div>
       </section>
     </Element>

@@ -2,6 +2,7 @@
 "use server";
 
 import { deleteFile, uploadFile } from "@/actions/storage-action";
+import { slugify } from "@/lib/slug";
 import { createClient } from "@/lib/supabase/server";
 import { FoodsFormState } from "@/types/foods";
 import { foodsSchema } from "@/validations/foods-validation";
@@ -39,6 +40,7 @@ export async function createFoods(
 
   const validatedFields = foodsSchema.safeParse({
     name: formData.get("name"),
+    description: formData.get("description"),
     ingredients: formData.get("ingredients"),
     tutorial: formData.get("tutorial"),
     category_id: categoryId,
@@ -55,7 +57,34 @@ export async function createFoods(
     };
   }
 
-  let finalImageUrl = null;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      status: "error",
+      errors: { ...prevState.errors, _form: ["Authentication required"] },
+    };
+  }
+
+  const baseSlug = slugify(validatedFields.data.name);
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (true) {
+    const { data: existing } = await supabase
+      .from("foods")
+      .select("id")
+      .eq("slug", slug)
+      .maybeSingle();
+
+    if (!existing) break;
+    slug = `${baseSlug}-${counter++}`;
+  }
+
+  let finalImageUrl: string | null = null;
 
   if (rawFeaturedImage instanceof File && rawFeaturedImage.size > 0) {
     const { errors, data } = await uploadFile(
@@ -76,20 +105,10 @@ export async function createFoods(
     finalImageUrl = data.url;
   }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return {
-      status: "error",
-      errors: { ...prevState.errors, _form: ["Authentication required"] },
-    };
-  }
-
   const { error } = await supabase.from("foods").insert({
     name: validatedFields.data.name,
+    slug,
+    description: validatedFields.data.description,
     ingredients: validatedFields.data.ingredients,
     tutorial: validatedFields.data.tutorial,
     category_id: categoryId,
@@ -107,9 +126,7 @@ export async function createFoods(
     };
   }
 
-  return {
-    status: "success",
-  };
+  return { status: "success" };
 }
 
 export async function updateFoods(
@@ -122,6 +139,7 @@ export async function updateFoods(
 
   const validatedFields = foodsSchema.safeParse({
     name: formData.get("name"),
+    description: formData.get("description"),
     ingredients: formData.get("ingredients"),
     tutorial: formData.get("tutorial"),
     category_id: categoryId,
@@ -131,7 +149,10 @@ export async function updateFoods(
   if (!validatedFields.success) {
     return {
       status: "error",
-      errors: { ...validatedFields.error.flatten().fieldErrors, _form: [] },
+      errors: {
+        ...validatedFields.error.flatten().fieldErrors,
+        _form: [],
+      },
     };
   }
 
@@ -139,13 +160,14 @@ export async function updateFoods(
 
   const updatePayload: any = {
     name: validatedFields.data.name,
+    description: validatedFields.data.description,
     ingredients: validatedFields.data.ingredients,
     tutorial: validatedFields.data.tutorial,
     category_id: categoryId,
   };
 
   if (rawFeaturedImage instanceof File && rawFeaturedImage.size > 0) {
-    let prevPublicId = undefined;
+    let prevPublicId: string | undefined;
 
     const { data: currentFoods } = await supabase
       .from("foods")
@@ -195,9 +217,7 @@ export async function updateFoods(
     };
   }
 
-  return {
-    status: "success",
-  };
+  return { status: "success" };
 }
 
 export async function deleteFoods(

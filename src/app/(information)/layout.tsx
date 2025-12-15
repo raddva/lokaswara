@@ -1,13 +1,15 @@
-import { ReactNode } from 'react';
+import Footer from "@/components/common/app-footer"
 
-type AuthLayoutProps = {
-    children: ReactNode;
-};
 
-export default function InformationLayout({ children }: AuthLayoutProps) {
-    return (
-        <div>
-            <div>{children}</div>
-        </div>
-    );
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <main>
+      {children}
+      <Footer />
+    </main>
+  )
 }
