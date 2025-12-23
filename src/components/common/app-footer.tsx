@@ -15,6 +15,7 @@ const NAV_ITEMS: NavItem[] = [
   { name: "Beranda", link: "/home" },
   { name: "Informasi", link: "/home", scrollTo: "fact" },
   { name: "Tentang Kami", link: "/home", scrollTo: "visiMisi" },
+  { name: "Kamus", link: "/dictionary" },
   { name: "Profil", link: "/profile" },
 ];
 
@@ -57,8 +58,17 @@ export default function Footer() {
           />
 
           <div className="flex gap-4">
-            <Instagram className="cursor-pointer hover:text-purple-400 transition" />
-            <Mail className="cursor-pointer hover:text-red-400 transition" />
+            <Link
+              href="https://instagram.com/lokaswaraaa"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram className="cursor-pointer hover:text-purple-400 transition" />
+            </Link>
+
+            <Link href="mailto:lokaswaraaaaa@gmail.com">
+              <Mail className="cursor-pointer hover:text-red-400 transition" />
+            </Link>
           </div>
         </div>
 
@@ -84,10 +94,10 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <h2 className="font-semibold text-lg">Kategori</h2>
             <div className="flex flex-col gap-2 text-sm text-white/80">
-              <a href="/makanan" className="hover:text-white cursor-pointer">Makanan</a>
-              <a href="/keunikan" className="hover:text-white cursor-pointer">Keunikan</a>
-              <a href="/seni" className="hover:text-white cursor-pointer">Seni</a>
-              <a href="/tradisi" className="hover:text-white cursor-pointer">Tradisi</a>
+              <Link href="/makanan" className="hover:text-white cursor-pointer">Makanan</Link>
+              <Link href="/keunikan" className="hover:text-white cursor-pointer">Keunikan</Link>
+              <Link href="/seni" className="hover:text-white cursor-pointer">Seni</Link>
+              <Link href="/tradisi" className="hover:text-white cursor-pointer">Tradisi</Link>
             </div>
           </div>
 
