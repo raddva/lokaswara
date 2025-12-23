@@ -104,7 +104,7 @@ export default function VisiMisi() {
         className="relative bg-cover bg-bottom min-h-screen px-4 sm:px-6 md:px-12 lg:px-24 xl:px-32 py-16 sm:py-20 flex flex-col justify-center gap-10"
         style={{ backgroundImage: `url('/assets/lastsection.jpeg')` }}
       >
-        <div className="bg-black/50 inset-0 absolute z-10 w-full h-full"></div>
+        <div className="bg-linear-to-b from-black to-black/50 inset-0 absolute z-10 w-full h-full"></div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -170,7 +170,7 @@ export default function VisiMisi() {
                         transition={{ delay: 0.15, duration: 0.6 }}
                         className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur-md p-5 sm:p-6 shadow-lg flex flex-col justify-center items-center cursor-pointer"
                       >
-                        <Icon fill={type === "content" ? "white" : undefined} />
+                        <Icon fill={"white"} />
                         <p className="text-white">{label}</p>
                       </motion.div>
                     </DialogTrigger>

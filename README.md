@@ -20,14 +20,14 @@ LokaSwara memadukan arsip media dengan interaksi komunitas:
 
 ## 💻 Tech Stack
 
-| Kategori | Teknologi | Lencana | Penjelasan |
-| :--- | :--- | :--- | :--- |
-| **Frontend** | **Next.js (App Router)** | <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js Badge"/> | React Framework untuk performa, SEO, dan routing yang efisien. |
-| **Styling** | **Tailwind CSS** | <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS Badge"/> | Styling utility-first yang responsif dan cepat. |
-| **Database** | **Supabase** | <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase Badge"/> | Backend-as-a-Service (BaaS) yang menyediakan Database (PostgreSQL) dan Autentikasi. |
-| **Database** | **PostgreSQL** | <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Badge"/> | Sistem Database Relasional yang digunakan oleh Supabase. |
-| **Storage (Gambar)** | **Cloudinary** | <img src="https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary Badge"/> | Optimasi dan hosting gambar. |
-| **Storage (Video)** | **YouTube** | <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube Badge"/> | Layanan hosting dan streaming video gratis (embedded). |
+| Kategori             | Teknologi                | Lencana                                                                                                                                      | Penjelasan                                                                          |
+| :------------------- | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------- |
+| **Frontend**         | **Next.js (App Router)** | <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js Badge"/>                | React Framework untuk performa, SEO, dan routing yang efisien.                      |
+| **Styling**          | **Tailwind CSS**         | <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS Badge"/> | Styling utility-first yang responsif dan cepat.                                     |
+| **Database**         | **Supabase**             | <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase Badge"/>             | Backend-as-a-Service (BaaS) yang menyediakan Database (PostgreSQL) dan Autentikasi. |
+| **Database**         | **PostgreSQL**           | <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL Badge"/>       | Sistem Database Relasional yang digunakan oleh Supabase.                            |
+| **Storage (Gambar)** | **Cloudinary**           | <img src="https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary Badge"/>       | Optimasi dan hosting gambar.                                                        |
+| **Storage (Video)**  | **YouTube**              | <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube Badge"/>                | Layanan hosting dan streaming video gratis (embedded).                              |
 
 ## 🚀 Panduan Setup Lokal
 
@@ -42,6 +42,7 @@ Prasyarat
 - Akun Cloudinary
 
 1. Kloning Repositori
+
 ```bash
 git clone [https://github.com/raddva/lokaswara.git](https://github.com/raddva/lokaswara.git)
 cd lokaswara
@@ -60,6 +61,7 @@ Ambil Project URL dan Anon Public Key dari bagian Settings > API di Supabase.
 3. Setup Lingkungan Variabel
 
 Buat file .env.local di root proyek dan tambahkan variabel berikut:
+
 ```bash
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
@@ -72,6 +74,7 @@ CLOUDINARY_API_SECRET=YOUR_CLOUDINARY_API_SECRET
 ```
 
 4. Instalasi Dependensi dan Jalankan
+
 ```bash
 npm install
 npm run dev
@@ -80,5 +83,6 @@ npm run dev
 Aplikasi akan berjalan di http://localhost:3000.
 
 ## 📌 Kontributor
-- @Dharkaa & @Reksaditya sebagai Front-End Developer
-- @raddva sebagai Back-End Developer
+
+- [@Reksaditya](https://github.com/Reksaditya) sebagai Front-End Developer
+- [@raddva](https://github.com/raddva) sebagai Back-End Developer

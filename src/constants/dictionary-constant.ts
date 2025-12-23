@@ -28,3 +28,14 @@ export const INITIAL_STATE_DICTIONARY = {
     _form: [],
   },
 };
+
+export type DictionaryItem = {
+  id: string;
+  word: string;
+  meaning: string;
+  synonym: string | null;
+  pronunciation: string | null;
+  language_id: string | null;
+  created_at: string;
+  created_by: string | null;
+};

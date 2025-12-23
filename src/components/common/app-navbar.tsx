@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface NavItem {
     name: string;
@@ -15,6 +16,7 @@ const NAV_ITEMS: NavItem[] = [
     { name: "Beranda", link: "/home" },
     { name: "Informasi", link: "/home", scrollTo: "fact" },
     { name: "Tentang Kami", link: "/home", scrollTo: "visiMisi" },
+    { name: "Kamus", link: "/dictionary" },
     { name: "Profil", link: "/profile" },
 ];
 
@@ -50,8 +52,10 @@ export default function Navbar() {
         <nav className={`fixed top-0 z-30 w-full transition-all duration-300 ${isScrolled ? "bg-black/70 backdrop-blur-md" : "bg-transparent"}`}>
             <div className="flex items-center justify-between px-4 sm:px-6 md:px-12 lg:px-24 py-4">
                 <div className="flex items-center gap-2">
-                    <Image src="/assets/logo_white.svg" alt="logo" width={30} height={30} />
-                    <h1 className="text-white font-bold text-lg sm:text-xl">LokaSwara</h1>
+                    <Link href="/" className="flex items-center gap-2 text-white transition-colors duration-300 hover:bg-linear-to-r hover:from-blue-400 hover:to-purple-500 hover:bg-clip-text hover:text-transparent">
+                        <Image src="/assets/logo_white.svg" alt="LokaSwara Logo" width={30} height={30} className="transition-transform duration-300 hover:scale-105" />
+                        <h1 className="font-bold text-lg sm:text-xl leading-none">LokaSwara</h1>
+                    </Link>
                 </div>
 
                 <div className="hidden md:flex items-center gap-12">
