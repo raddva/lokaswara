@@ -45,7 +45,7 @@ export default function ProfileSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[220px] sm:h-[300px] md:h-[360px]
+          className="relative w-full h-[220px] sm:h-[300px] md:h-[500px]
              rounded-3xl overflow-hidden shadow-2xl border border-white/10"
         >
           <Image
